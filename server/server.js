@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const session = require('express-session')
 const todoRoutes = require('./routes/todos')
 const passport = require('passport')
+const cors = require('cors')
+
 app = express();
 
 const MONGO_URI =
@@ -21,7 +23,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json())
 app.use(express.urlencoded())
-
+app.use(cors())
 app.get('/healthcheck', (req, res) => {
     res.json('EVERYTHING SEEM FINE')
 })
