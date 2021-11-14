@@ -6,6 +6,7 @@ const schema = new mongoose.Schema({
     category: { type: String, enum: ['feature', 'ui', 'ux', 'enhancement', 'bug'], required: true,},
     upvotes: { type: Number, default: 0},
     status: { type: String, enum: ['suggestion', 'planned', 'in-progress', 'live'], default: 'planned'},
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 })

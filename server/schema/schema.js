@@ -47,6 +47,12 @@ const FeedbackRequestType = new GraphQLObjectType({
         resolve(parentValue, args) {
             return Comment.find({ feedback: parentValue.id})
         }
+    },
+    user: {
+      type: UserType,
+      resolve(parent, args) {
+        return User.findById(parent.user)
+      }
     }
   },
 });
@@ -95,9 +101,10 @@ const mutation = new GraphQLObjectType({
         category: {
             type: new GraphQLNonNull(GraphQLString),
         },
+        user: { type: new GraphQLNonNull(GraphQLString) }
       },
-      resolve(_, { title, detail, category }) {
-        return (new FeedbackRequest({ title, detail, category })).save();
+      resolve(_, { title, detail, category, user }) {
+        return (new FeedbackRequest({ title, detail, category, user })).save();
       },
     },
     updateFeedbackRequest: {
