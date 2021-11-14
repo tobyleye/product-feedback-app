@@ -1,17 +1,12 @@
+import "./css/index.css";
+
 function App() {
   return (
-    <div style={styles.app}>
+    <div class="h-screen text-2xl text-gray-700 grid place-items-center">
         Hello Product feedback app 👋
     </div>  
   );
 }
 
-const styles = {
-  app: {
-    height: '100vh',
-    display: 'grid',
-    placeItems: 'center'
-  }
-}
 
 export default App;
