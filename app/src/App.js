@@ -1,28 +1,19 @@
 import "./css/index.css";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useQuery,
-} from "@apollo/client";
-import { greetings } from "./graphql/queries";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Suspense, lazy } from "react";
-import { ChakraProvider, Container } from "@chakra-ui/react";
-import theme from './theme'
+import { ChakraProvider} from "@chakra-ui/react";
+import theme from "./theme";
 
-// routes
-const Signup = lazy(() => import("./pages/Signup"));
-const Login = lazy(() => import("./pages/Login"));
-
-
-const Greetings = () => {
-  const { data } = useQuery(greetings);
-  return <div>{data?.greetings}</div>;
-};
+// pages
+const Signup = lazy(() => import("./pages/signup"));
+const Login = lazy(() => import("./pages/login"));
+const Home = lazy(() => import("./pages/home"));
+const FeedbackDetails = lazy(() => import("./pages/feedback-details"));
+const NewFeedback = lazy(() => import("./pages/new-feedback"));
 
 const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql",
+  uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
 });
 
@@ -30,17 +21,18 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <ApolloProvider client={client}>
-        <Container>
-          <Suspense fallback={<div></div>}>
-            <BrowserRouter>
-              <Switch>
-                <Route path="/greetings" component={Greetings} />
-                <Route path="/signup" component={Signup} />
-                <Route path="/login" component={Login} />
-              </Switch>
-            </BrowserRouter>
-          </Suspense>
-        </Container>
+        <Suspense fallback={<div></div>}>
+          <BrowserRouter>
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <Route path="/signup" component={Signup} />
+              <Route path="/login" component={Login} />
+              <Route path="/feedback/new" component={NewFeedback} />
+              <Route path="/feedback/:id" component={FeedbackDetails} />
+              <Redirect from="*" to="/login" />
+            </Switch>
+          </BrowserRouter>
+        </Suspense>
       </ApolloProvider>
     </ChakraProvider>
   );

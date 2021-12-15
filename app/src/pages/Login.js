@@ -1,61 +1,78 @@
 import {
-  Input,
-  FormControl,
-  FormLabel,
   Button,
   Box,
-  Heading,
-  VStack,
-  Text,
 } from "@chakra-ui/react";
-import { useFormControl } from "../hooks";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { login as loginMutation } from "../graphql/mutations";
+import {
+  Form,
+  FormField,
+  FormIcon,
+  FormLayout,
+  FormTitle,
+} from "../components/form";
+import { FaLock} from "react-icons/fa"
 
-export default function Signup() {
-  // form controls
-  const emailControl = useFormControl();
-  const passwordControl = useFormControl();
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [login, { data, loading, error }] = useMutation(loginMutation);
 
   // submit handler
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    let password = passwordControl.value;
-    let email = emailControl.value;
 
-    console.log({
-      email,
-      password,
-    });
+    try {
+      await login({
+        variables: {
+          password,
+          email,
+        },
+      });
+      console.log("data:", data);
+    } catch (error) {
+      console.log("error:", error);
+    }
   };
 
   return (
-    <Box maxW="md" mx="auto" bg="white" p={6} mt={8} rounded="lg">
-      <Heading mb={8} size="xl">
-        Login
-      </Heading>
-      <form onSubmit={submit}>
-        <VStack spacing={4}>
-          <FormControl id="email" isRequired>
-            <FormLabel>Email address</FormLabel>
-            <Input type="email" required {...emailControl} />
-          </FormControl>
-
-          <FormControl id="password" isRequired>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <FormLabel>Password</FormLabel>
-              <Text>Forgot password?</Text>
-            </Box>
-            <Input type="password" required {...passwordControl} />
-          </FormControl>
-
-          <Box display="flex" w="full" justifyContent="flex-end">
-            <Button type="submit">Login</Button>
+    <Box>
+      <FormLayout>
+        <Form onSubmit={submit}>
+          <FormIcon>
+              <FaLock/>
+          </FormIcon>
+          <FormTitle>Login</FormTitle>
+          <FormField
+            type="email"
+            label="Email Address"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <FormField
+            type="password"
+            label="Password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Box
+            display="flex"
+            w="full"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Link to="/signup">New member? Register</Link>
+            <Button type="submit" isLoading={loading}>
+              Login
+            </Button>
           </Box>
-        </VStack>
-      </form>
+        </Form>
+      </FormLayout>
     </Box>
   );
 }

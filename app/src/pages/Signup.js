@@ -1,64 +1,89 @@
+import { Button, Box } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { signup as signupMutation } from "../graphql/mutations";
+import { useMutation } from "@apollo/client";
+import { useState } from "react";
 import {
-  Input,
-  FormControl,
-  FormLabel,
-  Button,
-  Box,
-  Heading,
-  VStack,
-} from "@chakra-ui/react";
-import { useFormControl } from "../hooks";
-
+  Form,
+  FormLayout,
+  FormField,
+  FormIcon,
+  FormTitle,
+} from "../components/form";
+import { FaUserPlus } from "react-icons/fa";
 
 export default function Signup() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [username, setUsername] = useState("");
 
-// form controls
-  const usernameControl = useFormControl()
-  const emailControl = useFormControl()
-  const passwordControl = useFormControl()
+  const [signup, { data, loading, error }] = useMutation(signupMutation);
 
-
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    let username = usernameControl.value;
-    let password = passwordControl.value;
-    let email = emailControl.value;
-
-    console.log({
-        email,
-        password,
-        username
-    })
-
+    try {
+      await signup({
+        variables: {
+          username,
+          password,
+          email,
+          fullname,
+        },
+      });
+    } catch (err) {
+      console.log("error:", err);
+    }
   };
 
   return (
-    <Box maxW="md" mx="auto" bg="white" p={6} mt={8} rounded="lg">
-      <Heading mb={8} size="xl">
-        Register account
-      </Heading>
-      <form onSubmit={submit}>
-        <VStack spacing={4}>
-          <FormControl id="email" isRequired>
-            <FormLabel>Email address</FormLabel>
-            <Input type="email" required {...emailControl} />
-          </FormControl>
+    <FormLayout>
+      <Form onSubmit={submit}>
+        <FormIcon>
+          <FaUserPlus />
+        </FormIcon>
+        <FormTitle>Register</FormTitle>
+        <FormField
+          type="email"
+          label="Email Address"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <FormField
+          type="text"
+          label="Fullname"
+          required
+          value={fullname}
+          onChange={(e) => setFullname(e.target.value)}
+        />
+        <FormField
+          type="text"
+          label="Username"
+          required
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
-          <FormControl id="username" isRequired>
-            <FormLabel>Username</FormLabel>
-            <Input type="text" required {...usernameControl} />
-          </FormControl>
-
-          <FormControl id="password" isRequired>
-            <FormLabel>Password</FormLabel>
-            <Input type="password" required  {...passwordControl}/>
-          </FormControl>
-
-          <Box display="flex" w="full" justifyContent="flex-end">
-            <Button type="submit">Sign up</Button>
-          </Box>
-        </VStack>
-      </form>
-    </Box>
+        <FormField
+          type="password"
+          label="Password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Box
+          display="flex"
+          w="full"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Link to="/login">Existing member? Login</Link>
+          <Button type="submit" isLoading={loading}>
+            Sign up
+          </Button>
+        </Box>
+      </Form>
+    </FormLayout>
   );
 }
