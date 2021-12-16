@@ -76,7 +76,7 @@ let EditForm = ({ feedback: _feedback = {} }) => {
           </Button>
 
           <HStack spacing={4}>
-            <Link to={`/feedback/${_feedback.id}`}>Cancel</Link>
+            <Link to="/">Cancel</Link>
             <Button type="submit">Save Changes</Button>
           </HStack>
         </Box>

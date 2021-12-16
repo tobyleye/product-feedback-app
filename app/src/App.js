@@ -1,4 +1,3 @@
-import "./css/index.css";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Suspense, lazy } from "react";

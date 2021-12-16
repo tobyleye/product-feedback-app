@@ -23,6 +23,7 @@ export default extendTheme({
           "html, body": {
             color: 'grey.3',
             background: '#f2f2f2',
+            fontFamily: 'Jost, sans-serif'
           },
           'h1,h2,h3,h4,h5': {
               color: 'grey.2'
