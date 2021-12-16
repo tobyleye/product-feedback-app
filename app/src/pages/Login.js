@@ -19,7 +19,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [login, { data, loading, error }] = useMutation(loginMutation);
+  const [login, { data, loading }] = useMutation(loginMutation);
 
   // submit handler
   const submit = async (e) => {

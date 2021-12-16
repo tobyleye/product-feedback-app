@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Header() {
     let [sortKey, setSortKey] =useState('')
@@ -62,7 +63,7 @@ export default function Header() {
         </Menu>
       </div>
       <Box ml="auto">
-        <Button colorScheme="purple" leftIcon={<FaPlus />}>
+        <Button as={Link} to="/feedback/new"  leftIcon={<FaPlus />}>
           Add Feedback
         </Button>
       </Box>

@@ -11,6 +11,8 @@ const Login = lazy(() => import("./pages/login"));
 const Home = lazy(() => import("./pages/home"));
 const FeedbackDetails = lazy(() => import("./pages/feedback-details"));
 const NewFeedback = lazy(() => import("./pages/new-feedback"));
+const EditFeedback = lazy(() => import("./pages/edit-feedback"));
+
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
@@ -28,6 +30,7 @@ function App() {
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/feedback/new" component={NewFeedback} />
+              <Route path="/feedback/:id/edit" component={EditFeedback} />
               <Route path="/feedback/:id" component={FeedbackDetails} />
               <Redirect from="*" to="/login" />
             </Switch>

@@ -1,27 +1,33 @@
-import {
-  Box,
-  Button,
-  Heading,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import {  FaPlus } from "react-icons/fa";
-import { FeedbackCard  } from "../../components/cards"; 
+import { Box, Button, Heading, Text, VStack } from "@chakra-ui/react";
+import { FaPlus } from "react-icons/fa";
+import { FeedbackCard } from "../../components/cards";
+import { ReactComponent as NoFeedback } from "../../assets/no-feedback.svg";
+import { Link } from "react-router-dom";
 
 export function FeedbackList({ data }) {
   if (data.length === 0) {
     return (
-      <Box bg="white">
-        <Box>
-          <Heading size="md" mb={2}>
-            There's no feedback yet
-          </Heading>
-          <Text mb={4}>
-            Got a suggestion? Found a bug that needs to be squashed? We love
+      <Box
+        textAlign="center"
+        bg="white"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        py="14vh"
+        px="4rem"
+        rounded="lg"
+      >
+        <NoFeedback />
+        <Heading size="md" mt={12} mb={4}>
+          There is no feedback yet
+        </Heading>
+        <Box mb={10}>
+          <Text>
+            Got a suggestion? Found a bug that needs to be squashed?<br /> We love
             hearing about new ideas to improve our app.
           </Text>
-          <Button leftIcon={<FaPlus />}>Add Feedback</Button>
         </Box>
+        <Button as={Link} to="/feedback/new" leftIcon={<FaPlus />}>Add Feedback</Button>
       </Box>
     );
   }

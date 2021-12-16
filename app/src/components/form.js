@@ -72,16 +72,16 @@ const StyledFormField = styled.div`
   }
 
   textarea {
-      height: 98px;
-        padding-top: 10px;
-        padding-bottom: 10px;
+    height: 98px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 `;
 export const FormField = ({ label, helperText, type, options, ...props }) => {
   type = type.toLowerCase(); // can never trust these users (me!)
   return (
     <StyledFormField>
-      <label>{label}</label>
+      {label && <label>{label}</label>}
       {helperText && <p className="helper-text">{helperText}</p>}
       {type === "select" ? (
         <select {...props}>

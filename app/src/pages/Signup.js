@@ -18,7 +18,7 @@ export default function Signup() {
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
 
-  const [signup, { data, loading, error }] = useMutation(signupMutation);
+  const [signup, { loading }] = useMutation(signupMutation);
 
   const submit = async (e) => {
     e.preventDefault();

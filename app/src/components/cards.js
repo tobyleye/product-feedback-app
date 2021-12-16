@@ -1,24 +1,13 @@
-import {
-  Box,
-  Button,
-  Heading,
-  Text,
-  Grid,
-  HStack,
-} from "@chakra-ui/react";
-import { FaChevronUp, FaComment, } from "react-icons/fa";
+import { Box, Button, Heading, Text, Grid, HStack } from "@chakra-ui/react";
+import { FaChevronUp, FaComment } from "react-icons/fa";
 import { Link } from "react-router-dom";
+
+export let Card = (props) => <Box bg="white" p={8} rounded="lg" {...props} />;
 
 export let FeedbackCard = ({ feedback, disableLink = false }) => {
   return (
-    <article>
-      <Grid
-        p={8}
-        bg="white"
-        rounded="lg"
-        gridTemplateColumns="auto 1fr auto"
-        gap={6}
-      >
+    <Card as="article">
+      <Grid gridTemplateColumns="auto 1fr auto" gap={6}>
         <Box>
           <Button
             flexDirection="column"
@@ -30,7 +19,7 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
             <Box mb={2}>
               <FaChevronUp />
             </Box>
-            <span>99</span>
+            <span>{feedback.upvotes}</span>
           </Button>
         </Box>
         <Box>
@@ -45,7 +34,7 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
             {feedback.detail}
           </Text>
           <Box className="feedback-category">
-            <Button size="sm">Feature</Button>
+            <Button size="sm">{feedback.category}</Button>
           </Box>
         </Box>
 
@@ -56,6 +45,6 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
           </HStack>
         </Box>
       </Grid>
-    </article>
+    </Card>
   );
 };
