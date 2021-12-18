@@ -18,11 +18,11 @@ export function FeedbackList({ data }) {
         rounded="lg"
       >
         <NoFeedback />
-        <Heading size="md" mt={12} mb={4}>
+        <Heading size="h1" mt={12} mb={4}>
           There is no feedback yet
         </Heading>
         <Box mb={10}>
-          <Text>
+          <Text size="body1">
             Got a suggestion? Found a bug that needs to be squashed?<br /> We love
             hearing about new ideas to improve our app.
           </Text>
@@ -31,6 +31,7 @@ export function FeedbackList({ data }) {
       </Box>
     );
   }
+
   return (
     <VStack alignItems="stretch" spacing={5} as="ul" listStyleType="none">
       {data.map((feedback) => (

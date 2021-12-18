@@ -16,6 +16,9 @@ export const fetchFeedbackList = gql`
             status,
             upvotes,
             createdAt,
+            comments { 
+                id
+            },
             user {
                 fullname,
                 email,

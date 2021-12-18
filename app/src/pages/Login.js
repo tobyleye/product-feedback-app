@@ -1,7 +1,4 @@
-import {
-  Button,
-  Box,
-} from "@chakra-ui/react";
+import { Button, Box } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
@@ -13,7 +10,8 @@ import {
   FormLayout,
   FormTitle,
 } from "../components/form";
-import { FaLock} from "react-icons/fa"
+import { FaLock } from "react-icons/fa";
+import { Padded } from "../components/layouts";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -39,11 +37,11 @@ export default function Login() {
   };
 
   return (
-    <Box>
+    <Padded>
       <FormLayout>
         <Form onSubmit={submit}>
           <FormIcon>
-              <FaLock/>
+            <FaLock />
           </FormIcon>
           <FormTitle>Login</FormTitle>
           <FormField
@@ -73,6 +71,6 @@ export default function Login() {
           </Box>
         </Form>
       </FormLayout>
-    </Box>
+    </Padded>
   );
 }

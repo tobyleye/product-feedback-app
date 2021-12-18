@@ -11,6 +11,7 @@ import {
   FormTitle,
 } from "../components/form";
 import { FaUserPlus } from "react-icons/fa";
+import { Padded } from "../components/layouts";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -37,53 +38,55 @@ export default function Signup() {
   };
 
   return (
-    <FormLayout>
-      <Form onSubmit={submit}>
-        <FormIcon>
-          <FaUserPlus />
-        </FormIcon>
-        <FormTitle>Register</FormTitle>
-        <FormField
-          type="email"
-          label="Email Address"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <FormField
-          type="text"
-          label="Fullname"
-          required
-          value={fullname}
-          onChange={(e) => setFullname(e.target.value)}
-        />
-        <FormField
-          type="text"
-          label="Username"
-          required
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+    <Padded>
+      <FormLayout>
+        <Form onSubmit={submit}>
+          <FormIcon>
+            <FaUserPlus />
+          </FormIcon>
+          <FormTitle>Register</FormTitle>
+          <FormField
+            type="email"
+            label="Email Address"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <FormField
+            type="text"
+            label="Fullname"
+            required
+            value={fullname}
+            onChange={(e) => setFullname(e.target.value)}
+          />
+          <FormField
+            type="text"
+            label="Username"
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
 
-        <FormField
-          type="password"
-          label="Password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Box
-          display="flex"
-          w="full"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Link to="/login">Existing member? Login</Link>
-          <Button type="submit" isLoading={loading}>
-            Sign up
-          </Button>
-        </Box>
-      </Form>
-    </FormLayout>
+          <FormField
+            type="password"
+            label="Password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Box
+            display="flex"
+            w="full"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Link to="/login">Existing member? Login</Link>
+            <Button type="submit" isLoading={loading}>
+              Sign up
+            </Button>
+          </Box>
+        </Form>
+      </FormLayout>
+    </Padded>
   );
 }

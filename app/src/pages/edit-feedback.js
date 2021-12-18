@@ -12,6 +12,8 @@ import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { fetchFeedback } from "../graphql/queries";
 import { useParams } from "react-router-dom";
+import { Padded } from "../components/layouts";
+import { BackButton } from "../components/buttons";
 
 let EditForm = ({ feedback: _feedback = {} }) => {
   const [feedback, setFeedback] = useState({
@@ -31,57 +33,62 @@ let EditForm = ({ feedback: _feedback = {} }) => {
   };
 
   return (
-    <FormLayout>
-      <Form onSubmit={submit}>
-        <FormIcon>
-          <FaPlus />
-        </FormIcon>
-        <FormTitle>Editing ‘{_feedback.title}’</FormTitle>
-        <FormField
-          type="text"
-          label="Feedback Title"
-          helperText="Add a short, descriptive headline"
-          required
-          value={feedback.title}
-          onChange={handleChange("title")}
-        />
-
-        <FormField
-          type="select"
-          label="Category"
-          helperText="choose a category for your feedback"
-          options={["option1", "opton2"]}
-          required
-          value={feedback.category}
-          onChange={handleChange("category")}
-        />
-
-        <FormField
-          type="textarea"
-          label="Feedback Detail"
-          helperText="Include any specific comments on what should be improved, added, etc."
-          required
-          value={feedback.detail}
-          onChange={handleChange("detail")}
-        />
-
-        <Box
-          display="flex"
-          w="full"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Button type="button" colorScheme="red">
-            Delete
-          </Button>
-
-          <HStack spacing={4}>
-            <Link to="/">Cancel</Link>
-            <Button type="submit">Save Changes</Button>
-          </HStack>
+    <Padded>
+      <FormLayout>
+        <Box mb={2}>
+          <BackButton />
         </Box>
-      </Form>
-    </FormLayout>
+        <Form onSubmit={submit}>
+          <FormIcon>
+            <FaPlus />
+          </FormIcon>
+          <FormTitle>Editing ‘{_feedback.title}’</FormTitle>
+          <FormField
+            type="text"
+            label="Feedback Title"
+            helperText="Add a short, descriptive headline"
+            required
+            value={feedback.title}
+            onChange={handleChange("title")}
+          />
+
+          <FormField
+            type="select"
+            label="Category"
+            helperText="choose a category for your feedback"
+            options={["option1", "opton2"]}
+            required
+            value={feedback.category}
+            onChange={handleChange("category")}
+          />
+
+          <FormField
+            type="textarea"
+            label="Feedback Detail"
+            helperText="Include any specific comments on what should be improved, added, etc."
+            required
+            value={feedback.detail}
+            onChange={handleChange("detail")}
+          />
+
+          <Box
+            display="flex"
+            w="full"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Button type="button" colorScheme="red">
+              Delete
+            </Button>
+
+            <HStack spacing={4}>
+              <Link to="/">Cancel</Link>
+              <Button type="submit">Save Changes</Button>
+            </HStack>
+          </Box>
+        </Form>
+      </FormLayout>
+    </Padded>
   );
 };
 

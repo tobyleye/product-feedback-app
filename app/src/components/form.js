@@ -1,14 +1,12 @@
 import styled from "@emotion/styled";
 
 export const FormLayout = styled.div`
-  padding: 4rem 1rem;
-  height: 100vh;
-  display: grid;
-  place-items: center;
-`;
-export const Form = styled.form`
   max-width: 480px;
-  width: 100%;
+  margin: 0 auto;
+`;
+
+export const Form = styled.form`
+  margin: 3rem 0 0;
   background: white;
   padding: 0 2.5rem 3rem;
   border-radius: 8px;

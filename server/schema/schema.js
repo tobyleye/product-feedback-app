@@ -27,10 +27,11 @@ const CommentType = new GraphQLObjectType({
     name: 'Comment',
     fields: {
         id: { type: GraphQLString },
+        user: { type: UserType },
         content: { type: GraphQLString },
         createdAt: {type: GraphQLString}
     }
-})
+});
 
 const FeedbackRequestType = new GraphQLObjectType({
   name: "FeedbackRequest",
@@ -80,6 +81,14 @@ const rootQuery = new GraphQLObjectType({
       type: UserType,
       resolve(parent, args, req) {
         return req.user;
+      }
+    },
+
+    greetings: {
+      type: GraphQLString,
+      resolve() {
+        console.log('calling greetings!')
+        return 'Hello world!'
       }
     }
 

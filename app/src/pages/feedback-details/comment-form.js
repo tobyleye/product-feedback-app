@@ -9,7 +9,7 @@ export default function CommentForm({ onSubmit }) {
   let [comment, setComment] = useState("");
   return (
     <Card>
-      <Heading size="md" mb={4}>Add comment</Heading>
+      <Heading size="md" mb={6}>Add comment</Heading>
       <form
         onSubmit={(e) => {
           e.preventDefault();

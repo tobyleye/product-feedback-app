@@ -9,6 +9,8 @@ import {
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
+import { Padded } from "../components/layouts";
+import { BackButton } from "../components/buttons";
 
 export default function NewFeedback() {
   const [feedback, setFeedback] = useState({
@@ -28,52 +30,57 @@ export default function NewFeedback() {
   };
 
   return (
-    <FormLayout>
-      <Form onSubmit={submit}>
-        <FormIcon>
-          <FaPlus />
-        </FormIcon>
-        <FormTitle>Create New Feedback</FormTitle>
-        <FormField
-          type="text"
-          label="Feedback Title"
-          helperText="Add a short, descriptive headline"
-          required
-          value={feedback.title}
-          onChange={handleChange("title")}
-        />
-
-        <FormField
-          type="select"
-          label="Category"
-          helperText="choose a category for your feedback"
-          options={["option1", "opton2"]}
-          required
-          value={feedback.category}
-          onChange={handleChange("category")}
-        />
-
-        <FormField
-          type="textarea"
-          label="Feedback Detail"
-          helperText="Include any specific comments on what should be improved, added, etc."
-          required
-          value={feedback.detail}
-          onChange={handleChange("detail")}
-        />
-
-        <Box
-          display="flex"
-          w="full"
-          justifyContent="flex-end"
-          alignItems="center"
-        >
-          <HStack spacing={4}>
-            <Link to="/">Cancel</Link>
-            <Button type="submit">Add Feedback</Button>
-          </HStack>
+    <Padded>
+      <FormLayout>
+        <Box mb={2}>
+          <BackButton />
         </Box>
-      </Form>
-    </FormLayout>
+        <Form onSubmit={submit}>
+          <FormIcon>
+            <FaPlus />
+          </FormIcon>
+          <FormTitle>Create New Feedback</FormTitle>
+          <FormField
+            type="text"
+            label="Feedback Title"
+            helperText="Add a short, descriptive headline"
+            required
+            value={feedback.title}
+            onChange={handleChange("title")}
+          />
+
+          <FormField
+            type="select"
+            label="Category"
+            helperText="choose a category for your feedback"
+            options={["Feature", "UI", "UX", "Enhancement", "Bug"]}
+            required
+            value={feedback.category}
+            onChange={handleChange("category")}
+          />
+
+          <FormField
+            type="textarea"
+            label="Feedback Detail"
+            helperText="Include any specific comments on what should be improved, added, etc."
+            required
+            value={feedback.detail}
+            onChange={handleChange("detail")}
+          />
+
+          <Box
+            display="flex"
+            w="full"
+            justifyContent="flex-end"
+            alignItems="center"
+          >
+            <HStack spacing={4}>
+              <Link to="/">Cancel</Link>
+              <Button type="submit">Add Feedback</Button>
+            </HStack>
+          </Box>
+        </Form>
+      </FormLayout>
+    </Padded>
   );
 }
