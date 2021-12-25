@@ -194,9 +194,9 @@ const mutation = new GraphQLObjectType({
         email: { type: new GraphQLNonNull(GraphQLString) },
         password: { type: new GraphQLNonNull(GraphQLString) },
       },
-      resolve: requireAuth((_, { email, password }, req) => {
+      resolve: (_, { email, password }, req) => {
         return AuthService.login({ email, password, req });
-      }),
+      }
     },
 
     logout: {
