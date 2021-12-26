@@ -39,20 +39,27 @@ export const fetchFeedback = gql`
             status,
             upvotes,
             createdAt,
-            user {
-                fullname,
-                email,
-                username,
-                createdAt
-            },
             comments {
                 id,
                 content,
                 user {
-                    id,
-                    fullname
+                    fullname,
+                    email,
+                    username,
                 }
             }
+        }
+    }
+`
+
+export const fetchCurrentUser= gql`
+    query {
+        currentUser {
+            id,
+            fullname,
+            email,
+            username,
+            createdAt
         }
     }
 `

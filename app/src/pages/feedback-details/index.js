@@ -13,12 +13,13 @@ import { FormField } from "../../components/form";
 export default function FeedbackDetailsPage() {
   const { id } = useParams();
 
-  const { data } = useQuery(fetchFeedback, {
+  const { data , error} = useQuery(fetchFeedback, {
     variables: {
       id,
     },
   });
 
+  console.log({ data , error })
   let feedback = data?.feedbackRequest;
 
   return (
@@ -56,7 +57,7 @@ export default function FeedbackDetailsPage() {
               </Card>
             </Box>
 
-            <CommentForm />
+            <CommentForm feedbackId={id}/>
           </div>
         )}
       </Box>
@@ -73,9 +74,9 @@ function Comment({ comment }) {
   };
 
   return (
-    <Box display="flex">
+    <Box display="flex" mb={3}>
       <Box flexShrink={0} mr={8}>
-        <Avatar size="md" name="John Doe" />
+        <Avatar size="md" name={comment?.user?.fullname} />
       </Box>
       <Box flex="1">
         <Box
@@ -85,8 +86,8 @@ function Comment({ comment }) {
           alignItems="center"
         >
           <div>
-            <Heading size="h4">John Doe</Heading>
-            <Text size="body2">@hexagon.bestagon</Text>
+            <Heading size="h4">{comment.user?.fullname}</Heading>
+            <Text size="body2">@{comment.user?.username}</Text>
           </div>
           <Button variant="link" onClick={() => setShow((show) => !show)}>
             Reply

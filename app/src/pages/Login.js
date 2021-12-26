@@ -13,7 +13,7 @@ import {
 import { FaLock } from "react-icons/fa";
 import { Padded } from "../components/layouts";
 
-export default function Login() {
+export default function Login({ onSuccess }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,7 +30,9 @@ export default function Login() {
           email,
         },
       });
-      console.log("data:", data);
+      if (typeof onSuccess === "function") {
+        onSuccess(data)
+      }
     } catch (error) {
       console.log("error:", error);
     }

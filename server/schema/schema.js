@@ -1,5 +1,5 @@
 const graphql = require("graphql");
-const { FeedbackRequest, Comment, User } = require("../models");
+const { FeedbackRequest, Comment, User, Reply } = require("../models");
 const AuthService = require("../services/auth");
 
 const {
@@ -27,8 +27,23 @@ const CommentType = new GraphQLObjectType({
   name: "Comment",
   fields: {
     id: { type: GraphQLString },
-    user: { type: UserType },
+    user: {
+      type: UserType,
+      resolve(parentValue) {
+        return User.findById(parentValue.user);
+      },
+    },
     content: { type: GraphQLString },
+    createdAt: { type: GraphQLString },
+  },
+});
+
+const ReplyType = new GraphQLObjectType({
+  name: "Reply",
+  fields: {
+    id: { type: GraphQLString },
+    reply: { type: GraphQLString },
+    user: { type: UserType },
     createdAt: { type: GraphQLString },
   },
 });
@@ -65,7 +80,6 @@ const FeedbackRequestType = new GraphQLObjectType({
   },
 });
 
-
 const rootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
@@ -91,7 +105,7 @@ const rootQuery = new GraphQLObjectType({
       }),
     },
 
-    user: {
+    currentUser: {
       type: UserType,
       resolve: requireAuth((parent, args, req) => {
         return req.user;
@@ -110,6 +124,7 @@ const rootQuery = new GraphQLObjectType({
 const mutation = new GraphQLObjectType({
   name: "Mutation",
   fields: {
+    // feedback mutations
     addFeedbackRequest: {
       type: FeedbackRequestType,
       args: {
@@ -124,7 +139,8 @@ const mutation = new GraphQLObjectType({
         },
         user: { type: new GraphQLNonNull(GraphQLString) },
       },
-      resolve: requireAuth((_, { title, detail, category, user }) => {
+      resolve: requireAuth((_, { title, detail, category }, req) => {
+        let user = req.user.id; // req.user.id is guaranteed
         return new FeedbackRequest({ title, detail, category, user }).save();
       }),
     },
@@ -138,7 +154,6 @@ const mutation = new GraphQLObjectType({
         status: { type: GraphQLString },
       },
       resolve: requireAuth((_, { id, ...rest }) => {
-        console.log(rest);
         return FeedbackRequest.findByIdAndUpdate(id, rest);
       }),
     },
@@ -151,7 +166,6 @@ const mutation = new GraphQLObjectType({
         return FeedbackRequest.findByIdAndDelete(id);
       }),
     },
-
     upvoteFeedbackRequest: {
       type: FeedbackRequestType,
       args: {
@@ -162,19 +176,47 @@ const mutation = new GraphQLObjectType({
       }),
     },
 
+    // comment mutations
     addComment: {
       type: CommentType,
       args: {
-        feedbackId: { type: GraphQLString },
-        comment: { type: GraphQLString },
+        feedbackId: { type: new GraphQLNonNull(GraphQLString) },
+        comment: { type: new GraphQLNonNull(GraphQLString) },
       },
-      resolve: requireAuth((_, { feedbackId, comment }) => {
-        return new Comment({ feedback: feedbackId, content: comment }).save();
+      resolve: requireAuth((_, { feedbackId, comment }, req) => {
+        console.log("adding comment", {
+          feedbackId,
+          comment,
+          user: req.user.id,
+        });
+        return new Comment({
+          feedback: feedbackId,
+          user: req.user.id,
+          content: comment,
+        }).save();
+      }),
+    },
+
+    // reply mutations
+
+    replyComment: {
+      type: ReplyType,
+      args: {
+        feedbackId: { type: new GraphQLNonNull(GraphQLString) },
+        commentId: { type: new GraphQLNonNull(GraphQLString) },
+        reply: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve: requireAuth((_, { feedbackId, commentId, reply }, req) => {
+        return new Reply({
+          feedback: feedbackId,
+          comment: commentId,
+          reply,
+          user: req.user.id,
+        }).save();
       }),
     },
 
     // auth mutations
-
     signup: {
       type: UserType,
       args: {
@@ -196,7 +238,7 @@ const mutation = new GraphQLObjectType({
       },
       resolve: (_, { email, password }, req) => {
         return AuthService.login({ email, password, req });
-      }
+      },
     },
 
     logout: {

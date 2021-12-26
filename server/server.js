@@ -23,7 +23,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json())
 app.use(express.urlencoded())
-app.use(cors())
+
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}))
+
 app.get('/healthcheck', (req, res) => {
     res.json('EVERYTHING SEEM FINE')
 })

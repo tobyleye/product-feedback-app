@@ -62,7 +62,9 @@ export default function Header() {
               onChange={changeSortKey}
             >
               {Object.entries(sortOptions).map(([value, label]) => (
-                <MenuItemOption value={value}>{label}</MenuItemOption>
+                <MenuItemOption key={value} value={value}>
+                  {label}
+                </MenuItemOption>
               ))}
             </MenuOptionGroup>
           </MenuList>
