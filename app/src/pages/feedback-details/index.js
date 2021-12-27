@@ -10,24 +10,25 @@ import { Padded } from "../../components/layouts";
 import { useState } from "react";
 import { FormField } from "../../components/form";
 
-export default function FeedbackDetailsPage() {
+export default function FeedbackDetailsPage({ currentUser }) {
   const { id } = useParams();
 
-  const { data , error} = useQuery(fetchFeedback, {
+  const { data} = useQuery(fetchFeedback, {
     variables: {
       id,
     },
-  });
+  }); 
 
-  console.log({ data , error })
+
   let feedback = data?.feedbackRequest;
+
 
   return (
     <Padded>
       <Box maxWidth="800px" mx="auto">
         <Box as="header" display="flex" mb={5} justifyContent="space-between">
           <BackButton />
-          {feedback && (
+          {feedback && feedback?.user?.id === currentUser.id ? (
             <Button
               as={Link}
               to={`/feedback/${feedback.id}/edit`}
@@ -35,7 +36,7 @@ export default function FeedbackDetailsPage() {
             >
               Edit Feedback
             </Button>
-          )}
+          ): null}
         </Box>
         {feedback && (
           <div>

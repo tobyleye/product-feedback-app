@@ -6,14 +6,40 @@ import {
   FormIcon,
   FormTitle,
 } from "../components/form";
-import { useQuery } from "@apollo/client";
-import { Link } from "react-router-dom";
+import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { fetchFeedback } from "../graphql/queries";
-import { useParams } from "react-router-dom";
+import { fetchFeedback, fetchFeedbackList } from "../graphql/queries";
 import { Padded } from "../components/layouts";
 import { BackButton } from "../components/buttons";
+import { gql } from "@apollo/client";
+import { useHistory, Redirect, useParams, Link } from "react-router-dom";
+
+let editFeedbackMutation = gql`
+  mutation updateFeedbackRequest(
+    $id: String!
+    $title: String
+    $detail: String
+    $category: String
+  ) {
+    updateFeedbackRequest(
+      id: $id
+      title: $title
+      detail: $detail
+      category: $category
+    ) {
+      id
+    }
+  }
+`;
+
+let deleteFeedbackMutation = gql`
+  mutation deleteFeedbackRequest($id: String!) {
+    deleteFeedbackRequest(id: $id) {
+      id
+    }
+  }
+`;
 
 let EditForm = ({ feedback: _feedback = {} }) => {
   const [feedback, setFeedback] = useState({
@@ -21,6 +47,14 @@ let EditForm = ({ feedback: _feedback = {} }) => {
     category: _feedback.category,
     detail: _feedback.detail,
   });
+
+  let { id } = useParams();
+  let [editFeedback, { loading: saving }] = useMutation(editFeedbackMutation);
+  let [deleteFeedback, { loading: deleting }] = useMutation(
+    deleteFeedbackMutation
+  );
+
+  let history = useHistory();
 
   let handleChange = (name) => (e) =>
     setFeedback((fb) => ({
@@ -30,6 +64,40 @@ let EditForm = ({ feedback: _feedback = {} }) => {
 
   let submit = (e) => {
     e.preventDefault();
+    editFeedback({
+      variables: {
+        id,
+        ...feedback,
+      },
+      refetchQueries: [
+        {
+          query: fetchFeedback,
+          variables: {
+            id,
+          },
+        },
+      ],
+    }).then(() => {
+      history.push(`/feedback/${id}`);
+    });
+  };
+
+  let handleDelete = () => {
+    let confirm = window.confirm('are you sure?')
+    if(!confirm) return
+    
+    deleteFeedback({
+      variables: {
+        id,
+      },
+      refetchQueries: [
+        {
+          query: fetchFeedbackList,
+        },
+      ],
+    }).then(() => {
+      history.push("/");
+    });
   };
 
   return (
@@ -56,7 +124,7 @@ let EditForm = ({ feedback: _feedback = {} }) => {
             type="select"
             label="Category"
             helperText="choose a category for your feedback"
-            options={["option1", "opton2"]}
+            options={["feature", "ui", "ux", "enhancement", "bug"]}
             required
             value={feedback.category}
             onChange={handleChange("category")}
@@ -77,13 +145,20 @@ let EditForm = ({ feedback: _feedback = {} }) => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Button type="button" colorScheme="red">
+            <Button
+              isLoading={deleting}
+              onClick={handleDelete}
+              type="button"
+              colorScheme="red"
+            >
               Delete
             </Button>
 
             <HStack spacing={4}>
               <Link to="/">Cancel</Link>
-              <Button type="submit">Save Changes</Button>
+              <Button isLoading={saving} type="submit">
+                Save Changes
+              </Button>
             </HStack>
           </Box>
         </Form>
@@ -92,9 +167,9 @@ let EditForm = ({ feedback: _feedback = {} }) => {
   );
 };
 
-export default function EditFeedback() {
+export default function EditFeedback({ currentUser }) {
   let { id } = useParams();
-  const { data } = useQuery(fetchFeedback, {
+  const { data,} = useQuery(fetchFeedback, {
     variables: {
       id,
     },
@@ -102,5 +177,12 @@ export default function EditFeedback() {
 
   let feedback = data?.feedbackRequest;
 
-  return <Box>{feedback && <EditForm feedback={feedback} />}</Box>;
+  if (feedback) {
+    if (feedback.user.id === currentUser.id) {
+      return <Box>{feedback && <EditForm feedback={feedback} />}</Box>;
+    } else {
+      return <Redirect to="/" />;
+    }
+  }
+  return null
 }

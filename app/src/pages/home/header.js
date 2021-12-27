@@ -8,28 +8,18 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ReactComponent as BulbIcon } from "../../assets/bulb.svg";
 
 let sortOptions = {
-  most_upvotes: "Most Upvotes",
-  least_upvotes: "Least Upvotes",
-  most_comments: "Most Comments",
-  least_comments: "Least Comments",
+  "+upvotes": "Most Upvotes",
+  "-upvotes": "Least Upvotes",
+  "+comments": "Most Comments",
+  "-comments": "Least Comments",
 };
 
-export default function Header() {
-  let [sortKey, setSortKey] = useState("");
-
-  let changeSortKey = (newSortKey) => {
-    if (sortKey === newSortKey) {
-      newSortKey = null;
-    }
-    setSortKey(newSortKey);
-  };
-
+export default function Header({ sortKey, setSortKey }) {
   return (
     <Box
       display="flex"
@@ -55,12 +45,8 @@ export default function Header() {
               {sortOptions[sortKey]}
             </Text>
           </MenuButton>
-          <MenuList border="1px solid red">
-            <MenuOptionGroup
-              value={sortKey}
-              type="radio"
-              onChange={changeSortKey}
-            >
+          <MenuList>
+            <MenuOptionGroup value={sortKey} type="radio" onChange={setSortKey}>
               {Object.entries(sortOptions).map(([value, label]) => (
                 <MenuItemOption key={value} value={value}>
                   {label}

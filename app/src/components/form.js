@@ -69,13 +69,17 @@ const StyledFormField = styled.div`
     }
   }
 
+  select option {
+    text-transform: capitalize;
+  }
+
   textarea {
     height: 98px;
     padding-top: 10px;
     padding-bottom: 10px;
   }
 `;
-export const FormField = ({ label, helperText, type, options, ...props }) => {
+export const FormField = ({ label, helperText, type, options, placeholder='', ...props }) => {
   type = type.toLowerCase(); // can never trust these users (me!)
   return (
     <StyledFormField>
@@ -83,6 +87,7 @@ export const FormField = ({ label, helperText, type, options, ...props }) => {
       {helperText && <p className="helper-text">{helperText}</p>}
       {type === "select" ? (
         <select {...props}>
+          <option value="">{placeholder}</option>
           {options.map((opt) => {
             if (typeof opt === "object") {
               let { value, label } = opt;
@@ -97,9 +102,9 @@ export const FormField = ({ label, helperText, type, options, ...props }) => {
           })}
         </select>
       ) : type === "textarea" ? (
-        <textarea {...props} />
+        <textarea placeholder={placeholder} {...props} />
       ) : (
-        <input type={type} {...props} />
+        <input type={type} placeholder={placeholder} {...props} />
       )}
     </StyledFormField>
   );

@@ -137,9 +137,9 @@ const mutation = new GraphQLObjectType({
         category: {
           type: new GraphQLNonNull(GraphQLString),
         },
-        user: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve: requireAuth((_, { title, detail, category }, req) => {
+        console.log('adding feedback', {title, detail,category})
         let user = req.user.id; // req.user.id is guaranteed
         return new FeedbackRequest({ title, detail, category, user }).save();
       }),

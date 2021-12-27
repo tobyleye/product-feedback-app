@@ -1,10 +1,35 @@
 import { Box, Button, Heading, Text, Grid, HStack } from "@chakra-ui/react";
-import { FaChevronUp, FaComment  } from "react-icons/fa";
+
+import { FaChevronUp, FaComment } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { gql, useMutation } from "@apollo/client";
+import { fetchFeedbackList } from "../graphql/queries";
 
 export let Card = (props) => <Box bg="white" p={8} rounded="lg" {...props} />;
 
+let upvoteMutation = gql`
+  mutation upvote($id: String!) {
+    upvoteFeedbackRequest(id: $id) {
+      upvotes
+    }
+  }
+`;
+
 export let FeedbackCard = ({ feedback, disableLink = false }) => {
+  let [upvote] = useMutation(upvoteMutation);
+
+  let handleUpvote = () => {
+    upvote({
+      variables:{
+          id: feedback.id
+      },
+      refetchQueries: [
+        {
+          query: fetchFeedbackList,
+        },
+      ],
+    });
+  };
   return (
     <Card as="article">
       <Grid gridTemplateColumns="auto 1fr auto" gap={6}>
@@ -15,6 +40,7 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
             px={2}
             height="auto"
             rounded="lg"
+            onClick={handleUpvote}
           >
             <Box mb={2}>
               <FaChevronUp />

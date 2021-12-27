@@ -19,7 +19,6 @@ export default function Routes() {
     refetch: refetchCurrentUser,
   } = useQuery(fetchCurrentUser);
 
-
   if (loading) {
     return (
       <Box h="100vh" display="grid" placeItems="center">
@@ -28,13 +27,23 @@ export default function Routes() {
     );
   }
 
-  if (data?.currentUser) {
+  let currentUser = data?.currentUser;
+
+  if (currentUser) {
     return (
       <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/feedback/new" component={NewFeedback} />
-        <Route path="/feedback/:id/edit" component={EditFeedback} />
-        <Route path="/feedback/:id" component={FeedbackDetails} />
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/feedback/new">
+          <NewFeedback />
+        </Route>
+        <Route path="/feedback/:id/edit">
+          <EditFeedback currentUser={currentUser} />
+        </Route>
+        <Route path="/feedback/:id">
+          <FeedbackDetails currentUser={currentUser} />
+        </Route>
         <Redirect from="*" to="/" />
       </Switch>
     );
@@ -42,7 +51,9 @@ export default function Routes() {
 
   return (
     <Switch>
-      <Route path="/signup" component={Signup} />
+      <Route path="/signup">
+        <Signup />
+      </Route>
       <Route path="/login">
         <Login onSuccess={(user) => refetchCurrentUser()} />
       </Route>

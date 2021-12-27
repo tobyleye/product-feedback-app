@@ -4,7 +4,30 @@ import { FeedbackCard } from "../../components/cards";
 import { ReactComponent as NoFeedback } from "../../assets/no-feedback.svg";
 import { Link } from "react-router-dom";
 
-export function FeedbackList({ data }) {
+let ValidKeyRegex= /[+-].*/
+
+let sortList = (data, key) => {
+  if (data.length === 0) return data;
+  if (!ValidKeyRegex.test(key)) return data;
+
+
+  let direction = key[0]
+  key = key.slice(1)
+
+  return [...data].sort((a,b) => {
+    if (direction === "+") {
+      return b[key] - a[key] 
+    } else {
+      return a[key]-b[key]
+    }
+  })
+}
+export function FeedbackList({ data=[], sortKey }) {
+
+  console.log({ sortKey,data })
+
+  let sortedList = sortList(data, sortKey)
+
   if (data.length === 0) {
     return (
       <Box
@@ -34,7 +57,7 @@ export function FeedbackList({ data }) {
 
   return (
     <VStack alignItems="stretch" spacing={5} as="ul" listStyleType="none">
-      {data.map((feedback) => (
+      {sortedList.map((feedback) => (
         <li key={feedback.id}>
           <FeedbackCard feedback={feedback} />
         </li>
