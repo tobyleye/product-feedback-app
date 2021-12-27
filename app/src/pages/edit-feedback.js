@@ -85,7 +85,7 @@ let EditForm = ({ feedback: _feedback = {} }) => {
   let handleDelete = () => {
     let confirm = window.confirm('are you sure?')
     if(!confirm) return
-    
+
     deleteFeedback({
       variables: {
         id,
@@ -179,7 +179,7 @@ export default function EditFeedback({ currentUser }) {
 
   if (feedback) {
     if (feedback.user.id === currentUser.id) {
-      return <Box>{feedback && <EditForm feedback={feedback} />}</Box>;
+      return <EditForm feedback={feedback} />
     } else {
       return <Redirect to="/" />;
     }
