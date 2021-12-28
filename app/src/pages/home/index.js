@@ -19,7 +19,7 @@ export default function Home() {
         <Box display="grid" gridTemplateColumns="auto 1fr" gap={8}>
           <Aside />
           <div>
-            <Header sortKey={sortKey} setSortKey={setSortKey}/>
+            <Header totalSuggestions={data?.feedbackRequests?.length} sortKey={sortKey} setSortKey={setSortKey}/>
             {data && <FeedbackList sortKey={sortKey} data={data.feedbackRequests} />}
           </div>
         </Box>

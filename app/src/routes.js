@@ -13,17 +13,11 @@ const NewFeedback = lazy(() => import("./pages/new-feedback"));
 const EditFeedback = lazy(() => import("./pages/edit-feedback"));
 
 export default function Routes() {
-  let {
-    loading,
-    data,
-    refetch: refetchCurrentUser,
-  } = useQuery(fetchCurrentUser);
+  let { loading, data } = useQuery(fetchCurrentUser);
 
   if (loading) {
     return (
-      <Box h="100vh" display="grid" placeItems="center">
-        {/* loading.. */}
-      </Box>
+      <Box h="100vh" display="grid" placeItems="center" />
     );
   }
 
@@ -55,7 +49,7 @@ export default function Routes() {
         <Signup />
       </Route>
       <Route path="/login">
-        <Login onSuccess={(user) => refetchCurrentUser()} />
+        <Login />
       </Route>
       <Redirect from="*" to="/login" />
     </Switch>

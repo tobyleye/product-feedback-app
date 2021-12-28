@@ -12,12 +12,13 @@ import {
 } from "../components/form";
 import { FaLock } from "react-icons/fa";
 import { Padded } from "../components/layouts";
+import { fetchCurrentUser } from "../graphql/queries";
 
-export default function Login({ onSuccess }) {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [login, { data, loading }] = useMutation(loginMutation);
+  const [login, { loading }] = useMutation(loginMutation);
 
   // submit handler
   const submit = async (e) => {
@@ -29,10 +30,12 @@ export default function Login({ onSuccess }) {
           password,
           email,
         },
+        refetchQueries: [
+          {
+            query: fetchCurrentUser
+          }
+        ]
       });
-      if (typeof onSuccess === "function") {
-        onSuccess(data)
-      }
     } catch (error) {
       console.log("error:", error);
     }

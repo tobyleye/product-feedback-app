@@ -19,7 +19,7 @@ let sortOptions = {
   "-comments": "Least Comments",
 };
 
-export default function Header({ sortKey, setSortKey }) {
+export default function Header({totalSuggestions, sortKey, setSortKey }) {
   return (
     <Box
       display="flex"
@@ -32,7 +32,7 @@ export default function Header({ sortKey, setSortKey }) {
       <Box mr={6} color="white" display="flex" alignItems="flex-start" gap={2}>
         <BulbIcon />
         <Text fontSize="18px" fontWeight="bold">
-          6 Suggestions
+          {totalSuggestions} Suggestions
         </Text>
       </Box>
       <div>
