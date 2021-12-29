@@ -13,15 +13,13 @@ import { FormField } from "../../components/form";
 export default function FeedbackDetailsPage({ currentUser }) {
   const { id } = useParams();
 
-  const { data} = useQuery(fetchFeedback, {
+  const { data } = useQuery(fetchFeedback, {
     variables: {
       id,
     },
-  }); 
-
+  });
 
   let feedback = data?.feedbackRequest;
-
 
   return (
     <Padded>
@@ -36,7 +34,7 @@ export default function FeedbackDetailsPage({ currentUser }) {
             >
               Edit Feedback
             </Button>
-          ): null}
+          ) : null}
         </Box>
         {feedback && (
           <div>
@@ -58,7 +56,7 @@ export default function FeedbackDetailsPage({ currentUser }) {
               </Card>
             </Box>
 
-            <CommentForm feedbackId={id}/>
+            <CommentForm feedbackId={id} />
           </div>
         )}
       </Box>
@@ -76,7 +74,7 @@ function Comment({ comment }) {
 
   return (
     <Box display="flex" mb={3}>
-      <Box flexShrink={0} mr={8}>
+      <Box display={["none", "block"]} flexShrink={0} mr={8}>
         <Avatar size="md" name={comment?.user?.fullname} />
       </Box>
       <Box flex="1">
@@ -86,16 +84,24 @@ function Comment({ comment }) {
           justifyContent="space-between"
           alignItems="center"
         >
-          <div>
-            <Heading size="h4">{comment.user?.fullname}</Heading>
-            <Text size="body2">@{comment.user?.username}</Text>
-          </div>
-          <Button variant="link" onClick={() => setShow((show) => !show)}>
+          <Box display="flex" alignItems="center">
+            <Avatar
+              display={["block", "none"]}
+              size={"md"}
+              mr={2}
+              name={comment?.user?.fullname}
+            />
+            <div>
+              <Heading size="h4">{comment.user?.fullname}</Heading>
+              <Text size="body2">@{comment.user?.username}</Text>
+            </div>
+          </Box>
+          <Button size="sm" variant="link" onClick={() => setShow((show) => !show)}>
             Reply
           </Button>
         </Box>
 
-        <Text mb={4}>{comment.content}</Text>
+        <Text mb={4} wordBreak="break-all">{comment.content}</Text>
 
         {show && (
           <form onSubmit={submit}>

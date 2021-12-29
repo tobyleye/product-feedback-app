@@ -1,4 +1,4 @@
-import { Box, Button, HStack } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import {
   Form,
   FormLayout,
@@ -83,8 +83,8 @@ let EditForm = ({ feedback: _feedback = {} }) => {
   };
 
   let handleDelete = () => {
-    let confirm = window.confirm('are you sure?')
-    if(!confirm) return
+    let confirm = window.confirm("are you sure?");
+    if (!confirm) return;
 
     deleteFeedback({
       variables: {
@@ -140,10 +140,11 @@ let EditForm = ({ feedback: _feedback = {} }) => {
           />
 
           <Box
-            display="flex"
             w="full"
-            justifyContent="space-between"
-            alignItems="center"
+            mt={8}
+            display="flex"
+            flexDir={["column-reverse", "row"]}
+            alignItems={["stretch", "center"]}
           >
             <Button
               isLoading={deleting}
@@ -153,13 +154,23 @@ let EditForm = ({ feedback: _feedback = {} }) => {
             >
               Delete
             </Button>
+            <Box w={4} h={4} />
 
-            <HStack spacing={4}>
-              <Link to="/">Cancel</Link>
-              <Button isLoading={saving} type="submit">
+            <Box
+              ml={[null, "auto"]}
+              display="flex"
+              flexDir={["column-reverse", "row"]}
+              spacing={4}
+            >
+              <Button as={Link} color="gray" to="/">
+                Cancel
+              </Button>
+              <Box w={4} h={4} />
+
+              <Button isLoading={saving} colorScheme="blue" type="submit">
                 Save Changes
               </Button>
-            </HStack>
+            </Box>
           </Box>
         </Form>
       </FormLayout>
@@ -169,7 +180,7 @@ let EditForm = ({ feedback: _feedback = {} }) => {
 
 export default function EditFeedback({ currentUser }) {
   let { id } = useParams();
-  const { data,} = useQuery(fetchFeedback, {
+  const { data } = useQuery(fetchFeedback, {
     variables: {
       id,
     },
@@ -179,10 +190,10 @@ export default function EditFeedback({ currentUser }) {
 
   if (feedback) {
     if (feedback.user.id === currentUser.id) {
-      return <EditForm feedback={feedback} />
+      return <EditForm feedback={feedback} />;
     } else {
       return <Redirect to="/" />;
     }
   }
-  return null
+  return null;
 }

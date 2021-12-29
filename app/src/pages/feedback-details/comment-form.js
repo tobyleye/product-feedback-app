@@ -1,4 +1,4 @@
-import { Heading, Box, Button } from "@chakra-ui/react";
+import { Heading, Box, Button,Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { FormField } from "../../components/form";
 import { Card } from "../../components/cards";
@@ -55,7 +55,7 @@ export default function CommentForm({ feedbackId }) {
         />
 
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <p>{maxCharacter - comment.length} characters left</p>
+          <Text size="body2">{maxCharacter - comment.length} characters left</Text>
           <Button type="submit" isLoading={loading}>
             Post Comment
           </Button>
