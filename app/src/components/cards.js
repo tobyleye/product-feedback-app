@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Text, Grid, HStack } from "@chakra-ui/react";
+import { Box, Button, Heading, Text, HStack } from "@chakra-ui/react";
 
 import { FaChevronUp, FaComment } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -15,13 +15,32 @@ let upvoteMutation = gql`
   }
 `;
 
+let noop = () => undefined;
+
+let UpvoteButton = ({ onClick = noop, upvotes = "", horizontal = false }) => {
+  return (
+    <Button
+      flexDirection={horizontal ? "row" : "column"}
+      py={2}
+      px={2}
+      height="auto"
+      rounded="lg"
+      onClick={onClick}
+    >
+      <FaChevronUp />
+      <Box w={2} h={2} />
+      <span>{upvotes}</span>
+    </Button>
+  );
+};
+
 export let FeedbackCard = ({ feedback, disableLink = false }) => {
   let [upvote] = useMutation(upvoteMutation);
 
   let handleUpvote = () => {
     upvote({
-      variables:{
-          id: feedback.id
+      variables: {
+        id: feedback.id,
       },
       refetchQueries: [
         {
@@ -32,21 +51,13 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
   };
   return (
     <Card as="article">
-      <Grid gridTemplateColumns="auto 1fr auto" gap={6}>
-        <Box>
-          <Button
-            flexDirection="column"
-            py={2}
-            px={2}
-            height="auto"
-            rounded="lg"
-            onClick={handleUpvote}
-          >
-            <Box mb={2}>
-              <FaChevronUp />
-            </Box>
-            <span>{feedback.upvotes}</span>
-          </Button>
+      <Box
+        display={["block", "grid"]}
+        gridTemplateColumns={[null, "auto 1fr auto"]}
+        gap={6}
+      >
+        <Box display={["none", "block"]}>
+          <UpvoteButton upvotes={feedback.upvotes} onClick={handleUpvote} />
         </Box>
         <Box>
           <Heading size="h3" as="h3">
@@ -64,13 +75,20 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
           </Box>
         </Box>
 
-        <Box>
+        <Box mt={[4,null]} display="flex" justifyContent="space-between" alignItems="center">
+          <Box display={["block", "none"]}>
+            <UpvoteButton
+              horizontal
+              upvotes={feedback.upvotes}
+              onClick={handleUpvote}
+            />
+          </Box>
           <HStack spacing={2}>
             <FaComment />
             <span>{feedback?.comments?.length}</span>
           </HStack>
         </Box>
-      </Grid>
+      </Box>
     </Card>
   );
 };
