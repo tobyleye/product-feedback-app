@@ -1,15 +1,10 @@
 import { Button } from "@chakra-ui/button";
-import {
-  VStack,
-  Box,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
+import { VStack, Box, Heading, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import { fetchCurrentUser } from "../../graphql/queries";
-import {FiLogOut} from "react-icons/fi"
+import { FiLogOut } from "react-icons/fi";
 
 const Card = styled.div`
   padding: 1rem 1rem;
@@ -55,6 +50,55 @@ const RoadMap = styled(Card)`
   }
 `;
 
+export function WelcomeCard() {
+  return (
+    <GradientCard>
+      <Heading color="white" size="md">
+        Frontend Mentor
+      </Heading>
+      <Text>Feedback Board</Text>
+    </GradientCard>
+  );
+}
+
+export function CategoryFilters() {
+  return (
+    <Card>
+      <Box display="flex" flexWrap="wrap">
+        {["All", "UI", "UX", "Enhancement", "Bug", "Feature"].map((opt) => (
+          <Box key={opt} mr={2} mb={2}>
+            <Button key={opt}>{opt}</Button>
+          </Box>
+        ))}
+      </Box>
+    </Card>
+  );
+}
+
+export function Roadmap() {
+  return (
+    <RoadMap>
+      <Box as="header" mb={4} display="flex" justifyContent="space-between">
+        <Heading size="sm">Roadmap</Heading>
+        <Link to="/roadmap">View</Link>
+      </Box>
+      <VStack alignItems="stretch" as="ul" spacing={3}>
+        <li style={{ "--color": "red" }}>
+          Planned
+          <span>2</span>
+        </li>
+        <li>
+          In-Progress
+          <span>3</span>
+        </li>
+        <li>
+          Live
+          <span>1</span>
+        </li>
+      </VStack>
+    </RoadMap>
+  );
+}
 let logoutMutation = gql`
   mutation logout {
     logout {
@@ -75,59 +119,12 @@ export default function Aside() {
       ],
     }).then(() => {});
   };
+
   return (
-    <Box w={260} position="sticky" top="16px" alignSelf="flex-start">
-      <VStack spacing={4} alignItems="stretch">
-        <GradientCard>
-          <Heading color="white" size="md">
-            Frontend Mentor
-          </Heading>
-          <Text>Feedback Board</Text>
-        </GradientCard>
-
-        <Card>
-          <Box display="flex" flexWrap="wrap">
-            {["All", "UI", "UX", "Enhancement", "Bug", "Feature"].map((opt) => (
-              <Box key={opt} mr={2} mb={2}>
-                <Button key={opt}>{opt}</Button>
-              </Box>
-            ))}
-          </Box>
-        </Card>
-
-        <RoadMap>
-          <Box as="header" mb={4} display="flex" justifyContent="space-between">
-            <Heading size="sm">Roadmap</Heading>
-            <Link to="/roadmap">View</Link>
-          </Box>
-          <VStack alignItems="stretch" as="ul" spacing={3}>
-            <li style={{ "--color": "red" }}>
-              Planned
-              <span>2</span>
-            </li>
-            <li>
-              In-Progress
-              <span>3</span>
-            </li>
-            <li>
-              Live
-              <span>1</span>
-            </li>
-          </VStack>
-        </RoadMap>
-
-        <Box>
-          <Button
-            onClick={handleLogout}
-            isFullWidth
-            variant="link"
-            colorScheme="red"
-            leftIcon={<FiLogOut />}
-          >
-            Logout
-          </Button>
-        </Box>
-      </VStack>
+    <Box >
+      <WelcomeCard />
+      <CategoryFilters />
+      <RoadMap />
     </Box>
   );
 }

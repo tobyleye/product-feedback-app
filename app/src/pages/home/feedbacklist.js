@@ -1,8 +1,10 @@
 import { Box, Button, Heading, Text, VStack } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
+import {useContext} from "react"
 import { FeedbackCard } from "../../components/cards";
 import { ReactComponent as NoFeedback } from "../../assets/no-feedback.svg";
 import { Link } from "react-router-dom";
+import {HomeFiltersContext} from "../../App"
 
 let ValidKeyRegex= /[+-].*/
 
@@ -22,9 +24,9 @@ let sortList = (data, key) => {
     }
   })
 }
-export function FeedbackList({ data=[], sortKey }) {
 
-  console.log({ sortKey,data })
+export function FeedbackList({ data=[] }) {
+  let { sortKey } = useContext(HomeFiltersContext)
 
   let sortedList = sortList(data, sortKey)
 
@@ -43,6 +45,7 @@ export function FeedbackList({ data=[], sortKey }) {
         <NoFeedback />
         <Heading size="h1" mt={12} mb={4}>
           There is no feedback yet
+        
         </Heading>
         <Box mb={10}>
           <Text size="body1">

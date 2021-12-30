@@ -11,6 +11,8 @@ import {
 import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ReactComponent as BulbIcon } from "../../assets/bulb.svg";
+import { useContext } from "react";
+import { HomeFiltersContext } from "../../App";
 
 let sortOptions = {
   "+upvotes": "Most Upvotes",
@@ -19,17 +21,24 @@ let sortOptions = {
   "-comments": "Least Comments",
 };
 
-export default function Header({totalSuggestions, sortKey, setSortKey }) {
+export default function Header({ totalSuggestions }) {
+  let { sortKey, setSortKey } = useContext(HomeFiltersContext);
+
   return (
     <Box
       display="flex"
       alignItems="center"
       bg="#373F68"
-      rounded="lg"
+      rounded={{ base: "none", md: "md" }}
       p={4}
-      mb={6}
     >
-      <Box mr={6} color="white" display="flex" alignItems="flex-start" gap={2}>
+      <Box
+        display={{ base: "none", md: "flex" }}
+        mr={6}
+        color="white"
+        alignItems="flex-start"
+        gap={2}
+      >
         <BulbIcon />
         <Text fontSize="18px" fontWeight="bold">
           {totalSuggestions} Suggestions

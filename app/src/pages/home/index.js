@@ -1,29 +1,45 @@
 import { useQuery } from "@apollo/client";
 import { Box } from "@chakra-ui/react";
-import { useState } from "react";
 import { Padded } from "../../components/layouts";
 import { fetchFeedbackList } from "../../graphql/queries";
-import Aside from "./aside";
+import { WelcomeCard, CategoryFilters, Roadmap } from "./aside";
 import { FeedbackList } from "./feedbacklist";
 import Header from "./header";
+import { MobileMenu } from "./mobilemenu";
 
 export default function Home() {
   const { data } = useQuery(fetchFeedbackList);
-
-  let [sortKey, setSortKey]=useState('+upvotes')
-
-
   return (
-    <Padded>
-      <Box maxW="920px" mx="auto">
-        <Box display="grid" gridTemplateColumns="auto 1fr" gap={8}>
-          <Aside />
-          <div>
-            <Header totalSuggestions={data?.feedbackRequests?.length} sortKey={sortKey} setSortKey={setSortKey}/>
-            {data && <FeedbackList sortKey={sortKey} data={data.feedbackRequests} />}
-          </div>
-        </Box>
+    <Box>
+      <Box display={{base:'block', md:'none'}}>
+      <MobileMenu />
+      <Header totalSuggestions={data?.feedbackRequests?.length} />
       </Box>
-    </Padded>
+      <Padded>
+        <Box maxW="1080" mx="auto">
+          <Box display="grid" gridTemplateColumns={{ lg: "auto 1fr" }} gap={8}>
+            <Box
+              alignSelf="flex-start"
+              width={{ lg: "260px" }}
+              position={{ lg: "sticky" }}
+              top={{ lg: "16px" }}
+              display={{ base: "none", md: "grid" }}
+              gridTemplateColumns={{ base: "repeat(3, 1fr)", lg: "1fr" }}
+              gap={4}
+            >
+              <WelcomeCard />
+              <CategoryFilters />
+              <Roadmap />
+            </Box>
+            <div>
+              <Box display={{ base: "none", md: "block" }} mb={6}>
+                <Header totalSuggestions={data?.feedbackRequests?.length} />
+              </Box>
+              {data && <FeedbackList data={data.feedbackRequests} />}
+            </div>
+          </Box>
+        </Box>
+      </Padded>
+    </Box>
   );
 }
