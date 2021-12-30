@@ -1,43 +1,52 @@
-const express = require('express');
-const { graphqlHTTP } = require('express-graphql')
-const schema = require('./schema/schema')
-const mongoose = require('mongoose')
-const session = require('express-session')
-const todoRoutes = require('./routes/todos')
-const passport = require('passport')
-const cors = require('cors')
+require('dotenv').config()
+const express = require("express");
+const { graphqlHTTP } = require("express-graphql");
+const schema = require("./schema/schema");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const passport = require("passport");
+const cors = require("cors");
 
-app = express();
+const PORT = process.env.PORT || 4000;
 
-const MONGO_URI =
-  "mongodb://127.0.0.1:27017/productfeedbackdb?retryWrites=true&w=majority";
+async function createServer() {
+  await mongoose.connect(process.env.MONGODB_URI);
+  app = express();
 
-mongoose.connect(MONGO_URI)
-    .then(() => {console.log('db connected')})
-    .catch(() => {console.log('error connecting db')})
+  app.use(
+    session({
+      secret: "session secret",
+    })
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use(express.json());
+  app.use(express.urlencoded());
 
-app.use(session({
-    secret: 'session secret',
-}))
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.json())
-app.use(express.urlencoded())
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true,
+    })
+  );
 
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true
-}))
+  app.get("/healthcheck", (req, res) => {
+    res.json("EVERYTHING SEEM FINE");
+  });
 
-app.get('/healthcheck', (req, res) => {
-    res.json('EVERYTHING SEEM FINE')
-})
+  app.use(
+    "/graphql",
+    graphqlHTTP({
+      graphiql: true,
+      schema,
+    })
+  );
 
-app.use('/graphql', graphqlHTTP({
-    graphiql: true,
-    schema
-}))
+  app.listen(PORT, () =>
+    console.log(`app is running on port ${PORT} `)
+  );
 
-app.use('/todos', todoRoutes)
+  return app;
+}
 
-app.listen(4000, () => console.log('app is running on port 4000'))
+createServer();
