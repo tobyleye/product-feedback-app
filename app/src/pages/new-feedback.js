@@ -16,8 +16,12 @@ import { fetchFeedbackList } from "../graphql/queries";
 import { useHistory } from "react-router-dom";
 
 let createNewFeedback = gql`
-  mutation addFeedbackRequest($title: String!, $detail: String!, $category: String!) {
-    addFeedbackRequest(title:$title, detail:$detail, category:$category) {
+  mutation addFeedbackRequest(
+    $title: String!
+    $detail: String!
+    $category: String!
+  ) {
+    addFeedbackRequest(title: $title, detail: $detail, category: $category) {
       id
     }
   }
@@ -93,17 +97,19 @@ export default function NewFeedback() {
           />
 
           <Box
-            display="flex"
+            mt={8}
             w="full"
-            justifyContent="flex-end"
-            alignItems="center"
+            display="flex"
+            flexDir={["column-reverse", "row"]}
+            justifyContent={["stretch",'flex-end']}
           >
-            <HStack spacing={4}>
-              <Link to="/">Cancel</Link>
-              <Button isLoading={loading} type="submit">
-                Add Feedback
-              </Button>
-            </HStack>
+            <Button as={Link} colorScheme="gray" to="/">
+              Cancel
+            </Button>
+            <Box w={4} h={4} />
+            <Button isLoading={loading} colorScheme="blue" type="submit">
+              Add Feedback
+            </Button>
           </Box>
         </Form>
       </FormLayout>
