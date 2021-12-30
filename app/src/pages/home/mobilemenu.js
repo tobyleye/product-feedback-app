@@ -14,7 +14,7 @@ import { useRef } from "react";
 
 import { CategoryFilters, Roadmap } from "./aside";
 
-let Toggle = ({ isOpen, ...props }) => {
+let MenuToggle = ({ isOpen, ...props }) => {
   return (
     <chakra.button
       {...props}
@@ -50,6 +50,7 @@ let Toggle = ({ isOpen, ...props }) => {
     </chakra.button>
   );
 };
+
 export function MobileMenu() {
   const { isOpen, onClose, onToggle } = useDisclosure();
   const btnRef = useRef();
@@ -84,7 +85,7 @@ export function MobileMenu() {
           </Text>
         </Box>
 
-        <Toggle isOpen={isOpen} onClick={onToggle} />
+        <MenuToggle isOpen={isOpen} onClick={onToggle} />
       </Box>
       <Box h={20} />
       <Drawer
