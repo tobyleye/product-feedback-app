@@ -23,6 +23,21 @@ const UserType = new GraphQLObjectType({
   },
 });
 
+const ReplyType = new GraphQLObjectType({
+  name: "Reply",
+  fields: {
+    id: { type: GraphQLString },
+    reply: { type: GraphQLString },
+    user: {
+      type: UserType,
+      resolve(parentValue) {
+        return User.findById(parentValue.user);
+      },
+    },
+    createdAt: { type: GraphQLString },
+  },
+});
+
 const CommentType = new GraphQLObjectType({
   name: "Comment",
   fields: {
@@ -33,17 +48,13 @@ const CommentType = new GraphQLObjectType({
         return User.findById(parentValue.user);
       },
     },
+    replies: {
+      type: new GraphQLList(ReplyType),
+      resolve(parentValue) {
+        return Reply.find({ comment: parentValue.id });
+      },
+    },
     content: { type: GraphQLString },
-    createdAt: { type: GraphQLString },
-  },
-});
-
-const ReplyType = new GraphQLObjectType({
-  name: "Reply",
-  fields: {
-    id: { type: GraphQLString },
-    reply: { type: GraphQLString },
-    user: { type: UserType },
     createdAt: { type: GraphQLString },
   },
 });
@@ -139,7 +150,6 @@ const mutation = new GraphQLObjectType({
         },
       },
       resolve: requireAuth((_, { title, detail, category }, req) => {
-        console.log('adding feedback', {title, detail,category})
         let user = req.user.id; // req.user.id is guaranteed
         return new FeedbackRequest({ title, detail, category, user }).save();
       }),
@@ -184,11 +194,6 @@ const mutation = new GraphQLObjectType({
         comment: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve: requireAuth((_, { feedbackId, comment }, req) => {
-        console.log("adding comment", {
-          feedbackId,
-          comment,
-          user: req.user.id,
-        });
         return new Comment({
           feedback: feedbackId,
           user: req.user.id,
@@ -207,6 +212,12 @@ const mutation = new GraphQLObjectType({
         reply: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve: requireAuth((_, { feedbackId, commentId, reply }, req) => {
+        console.log('saving reply...', {
+          feedbackId,
+          commentId,
+          reply
+        })
+
         return new Reply({
           feedback: feedbackId,
           comment: commentId,

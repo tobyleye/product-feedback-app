@@ -41,7 +41,7 @@ export const FormTitle = styled.h2`
 const StyledFormField = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 22px;
+  margin-bottom: ${props=> props.mb +'px'};
 
   label {
     font-size: 15px;
@@ -74,15 +74,15 @@ const StyledFormField = styled.div`
   }
 
   textarea {
-    height: 98px;
+    height: 78px;
     padding-top: 10px;
     padding-bottom: 10px;
   }
 `;
-export const FormField = ({ label, helperText, type, options, placeholder='', ...props }) => {
+export const FormField = ({ label, helperText, type, options, placeholder='', mb=22, ...props }) => {
   type = type.toLowerCase(); // can never trust these users (me!)
   return (
-    <StyledFormField>
+    <StyledFormField mb={mb}>
       {label && <label>{label}</label>}
       {helperText && <p className="helper-text">{helperText}</p>}
       {type === "select" ? (
