@@ -11,8 +11,7 @@ import {
 import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ReactComponent as BulbIcon } from "../../assets/bulb.svg";
-import { useContext } from "react";
-import { HomeFiltersContext } from "../../App";
+import { useFeedbackListContext} from "../../context/feedbacklist"
 
 let sortOptions = {
   "+upvotes": "Most Upvotes",
@@ -22,7 +21,7 @@ let sortOptions = {
 };
 
 export default function Header({ totalSuggestions }) {
-  let { sortKey, setSortKey } = useContext(HomeFiltersContext);
+  let { sortKey, setSortKey } = useFeedbackListContext();
 
   return (
     <Box

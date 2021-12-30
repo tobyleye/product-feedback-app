@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import { fetchCurrentUser } from "../../graphql/queries";
-import { FiLogOut } from "react-icons/fi";
+import { useFeedbackListContext } from "../../context/feedbacklist";
 
 const Card = styled.div`
   padding: 1rem 1rem;
@@ -61,15 +61,53 @@ export function WelcomeCard() {
   );
 }
 
+let filterOptions = ["UI", "UX", "Enhancement", "Bug", "Feature"];
+
 export function CategoryFilters() {
+  let { selectedCategories, setSelectedCategories } = useFeedbackListContext();
+
+  let toggleCategory = (category, selected) => {
+    // clean category
+    category = category.toLowerCase();
+    setSelectedCategories((categories) =>
+      selected
+        ? categories.filter((cat) => cat !== category)
+        : categories.concat(category)
+    );
+  };
+
+  // explicitly or implicitly
+  let allSelected =
+    selectedCategories.length === 0 ||
+    selectedCategories.length === filterOptions.length;
+
   return (
     <Card>
       <Box display="flex" flexWrap="wrap">
-        {["All", "UI", "UX", "Enhancement", "Bug", "Feature"].map((opt) => (
-          <Box key={opt} mr={2} mb={2}>
-            <Button key={opt}>{opt}</Button>
-          </Box>
-        ))}
+        <Box mr={2} mb={2}>
+          <Button
+            size="sm"
+            colorScheme={allSelected ? "blue" : null}
+            onClick={() => setSelectedCategories([])}
+          >
+            All
+          </Button>
+        </Box>
+        {filterOptions.map((opt) => {
+          let selected = selectedCategories.includes(opt.toLowerCase());
+          return (
+            <Box key={opt} mr={2} mb={2}>
+              <Button
+                size="sm"
+                colorScheme={selected ? "blue" : null}
+                key={opt}
+                onClick={() => toggleCategory(opt, selected)}
+              >
+                {opt}
+              </Button>
+            </Box>
+          );
+        })}
       </Box>
     </Card>
   );
@@ -121,7 +159,7 @@ export default function Aside() {
   };
 
   return (
-    <Box >
+    <Box>
       <WelcomeCard />
       <CategoryFilters />
       <RoadMap />

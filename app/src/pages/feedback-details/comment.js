@@ -67,12 +67,12 @@ export function Comment({
           )}
         </Box>
       </Box>
-      
+
       {/* replies */}
       <Box ml={4} paddingLeft={4}>
         {replies?.map((reply) => (
           // replies are basically comments
-          <Comment user={reply.user} body={reply.reply} disallowReply />
+          <Comment key={reply.id} user={reply.user} body={reply.reply} disallowReply />
         ))}
       </Box>
     </Box>
