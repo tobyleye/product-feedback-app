@@ -21,24 +21,22 @@ export default function Login() {
   const [login, { loading }] = useMutation(loginMutation);
 
   // submit handler
-  const submit = async (e) => {
+  const submit = (e) => {
     e.preventDefault();
 
-    try {
-      await login({
-        variables: {
-          password,
-          email,
+    login({
+      variables: {
+        password,
+        email,
+      },
+      refetchQueries: [
+        {
+          query: fetchCurrentUser,
         },
-        refetchQueries: [
-          {
-            query: fetchCurrentUser
-          }
-        ]
-      });
-    } catch (error) {
-      console.log("error:", error);
-    }
+      ],
+    }).then(() => {
+      console.log(":)");
+    });
   };
 
   return (

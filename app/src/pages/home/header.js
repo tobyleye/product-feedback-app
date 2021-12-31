@@ -11,7 +11,8 @@ import {
 import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ReactComponent as BulbIcon } from "../../assets/bulb.svg";
-import { useFeedbackListContext} from "../../context/feedbacklist"
+import { useFeedbackListContext } from "../../context/feedbacklist";
+import { useCurrentUser } from "../../context/currentuser";
 
 let sortOptions = {
   "+upvotes": "Most Upvotes",
@@ -22,6 +23,7 @@ let sortOptions = {
 
 export default function Header({ totalSuggestions }) {
   let { sortKey, setSortKey } = useFeedbackListContext();
+  let currentUser = useCurrentUser();
 
   return (
     <Box
@@ -65,9 +67,11 @@ export default function Header({ totalSuggestions }) {
         </Menu>
       </div>
       <Box ml="auto">
-        <Button as={Link} to="/feedback/new" leftIcon={<FaPlus />}>
-          Add Feedback
-        </Button>
+        {currentUser && (
+          <Button as={Link} to="/feedback/new" leftIcon={<FaPlus />}>
+            Add Feedback
+          </Button>
+        )}
       </Box>
     </Box>
   );

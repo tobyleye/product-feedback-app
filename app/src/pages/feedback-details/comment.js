@@ -7,6 +7,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import ReplyForm from "./reply-form";
+import { useCurrentUser } from "../../context/currentuser";
 
 export function Comment({
   id,
@@ -21,6 +22,8 @@ export function Comment({
     onClose: closeReplyForm,
     onToggle: toggleReplyForm,
   } = useDisclosure();
+
+  let currentUser = useCurrentUser();
 
   return (
     <Box>
@@ -47,7 +50,7 @@ export function Comment({
                 <Text size="body2">@{user?.username}</Text>
               </div>
             </Box>
-            {!disallowReply && (
+            {!disallowReply && currentUser && (
               <Button size="sm" variant="link" onClick={toggleReplyForm}>
                 Reply
               </Button>
@@ -72,7 +75,12 @@ export function Comment({
       <Box ml={4} paddingLeft={4}>
         {replies?.map((reply) => (
           // replies are basically comments
-          <Comment key={reply.id} user={reply.user} body={reply.reply} disallowReply />
+          <Comment
+            key={reply.id}
+            user={reply.user}
+            body={reply.reply}
+            disallowReply
+          />
         ))}
       </Box>
     </Box>

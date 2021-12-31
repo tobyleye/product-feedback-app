@@ -102,18 +102,18 @@ const rootQuery = new GraphQLObjectType({
     },
     feedbackRequests: {
       type: new GraphQLList(FeedbackRequestType),
-      resolve: requireAuth((_, args) => {
+      resolve: (_, args) => {
         return FeedbackRequest.find();
-      }),
+      },
     },
     feedbackRequest: {
       type: FeedbackRequestType,
       args: {
         id: { type: GraphQLString },
       },
-      resolve: requireAuth((_, { id }) => {
+      resolve: (_, { id }) => {
         return FeedbackRequest.findById(id);
-      }),
+      },
     },
 
     currentUser: {
@@ -212,11 +212,11 @@ const mutation = new GraphQLObjectType({
         reply: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve: requireAuth((_, { feedbackId, commentId, reply }, req) => {
-        console.log('saving reply...', {
+        console.log("saving reply...", {
           feedbackId,
           commentId,
-          reply
-        })
+          reply,
+        });
 
         return new Reply({
           feedback: feedbackId,

@@ -12,6 +12,7 @@ import {
 } from "../components/form";
 import { FaUserPlus } from "react-icons/fa";
 import { Padded } from "../components/layouts";
+import { fetchCurrentUser } from "../graphql/queries";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -21,20 +22,20 @@ export default function Signup() {
 
   const [signup, { loading }] = useMutation(signupMutation);
 
-  const submit = async (e) => {
+  const submit = (e) => {
     e.preventDefault();
-    try {
-      await signup({
+
+      signup({
         variables: {
           username,
           password,
           email,
           fullname,
         },
-      });
-    } catch (err) {
-      console.log("error:", err);
-    }
+        refetchQueries: fetchCurrentUser
+      }).then(() => {
+          console.log(':)')
+      })
   };
 
   return (

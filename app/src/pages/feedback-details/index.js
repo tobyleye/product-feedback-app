@@ -8,38 +8,49 @@ import CommentForm from "./comment-form";
 import { Link } from "react-router-dom";
 import { Padded } from "../../components/layouts";
 import { Comment } from "./comment";
+import { useCurrentUser } from "../../context/currentuser";
 
-export default function FeedbackDetailsPage({ currentUser }) {
+export default function FeedbackDetailsPage() {
   const { id } = useParams();
 
-  const { data } = useQuery(fetchFeedback, {
+  const { data, loading } = useQuery(fetchFeedback, {
     variables: {
       id,
     },
   });
 
+  const currentUser = useCurrentUser();
+
   let feedback = data?.feedbackRequest;
+
+  console.log({
+    feedback,
+    data,
+    loading,
+  });
 
   return (
     <Padded>
       <Box maxWidth="800px" mx="auto">
         <Box as="header" display="flex" mb={5} justifyContent="space-between">
           <BackButton />
-          {feedback && feedback?.user?.id === currentUser.id ? (
+          {feedback && currentUser && feedback.user?.id === currentUser.id && (
             <Button
               as={Link}
-              to={`/feedback/${feedback.id}/edit`}
+              to={`/feedback/${feedback?.id}/edit`}
               color="primary"
             >
               Edit Feedback
             </Button>
-          ) : null}
+          )}
         </Box>
         {feedback && (
           <div>
-            <Box as="section" mb={4}>
+            <Box as="section" mb={6}>
               <FeedbackCard feedback={feedback} disableLink />
             </Box>
+
+            <CommentForm feedbackId={id} />
 
             <Box as="section" id="comments" mb={5}>
               <Card>
@@ -61,8 +72,6 @@ export default function FeedbackDetailsPage({ currentUser }) {
                 </div>
               </Card>
             </Box>
-
-            <CommentForm feedbackId={id} />
           </div>
         )}
       </Box>
