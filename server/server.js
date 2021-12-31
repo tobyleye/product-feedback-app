@@ -1,4 +1,4 @@
-require('dotenv').config()
+require("dotenv").config();
 const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
 const schema = require("./schema/schema");
@@ -25,7 +25,10 @@ async function createServer() {
 
   app.use(
     cors({
-      origin: ['http://localhost:3000',],
+      origin: [
+        "http://localhost:3000",
+        process.env.CLIENT_APP_URL
+      ],
       credentials: true,
     })
   );
@@ -42,9 +45,7 @@ async function createServer() {
     })
   );
 
-  app.listen(PORT, () =>
-    console.log(`app is running on port ${PORT} `)
-  );
+  app.listen(PORT, () => console.log(`app is running on port ${PORT} `));
 
   return app;
 }
