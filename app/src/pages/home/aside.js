@@ -2,8 +2,6 @@ import { Button } from "@chakra-ui/button";
 import { VStack, Box, Heading, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { gql, useMutation } from "@apollo/client";
-import { fetchCurrentUser } from "../../graphql/queries";
 import { useFeedbackListContext } from "../../context/feedbacklist";
 
 const Card = styled.div`
@@ -137,26 +135,9 @@ export function Roadmap() {
     </RoadMap>
   );
 }
-let logoutMutation = gql`
-  mutation logout {
-    logout {
-      id
-    }
-  }
-`;
+
 
 export default function Aside() {
-  let [logout] = useMutation(logoutMutation);
-
-  let handleLogout = () => {
-    logout({
-      refetchQueries: [
-        {
-          query: fetchCurrentUser,
-        },
-      ],
-    }).then(() => {});
-  };
 
   return (
     <Box>
