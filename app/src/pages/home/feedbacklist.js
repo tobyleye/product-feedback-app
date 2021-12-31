@@ -60,12 +60,12 @@ export function FeedbackList({ data = [] }) {
           </Text>
         </Box>
         {currentUser ? (
-          <Button as={Link} to="/login">
-            Login to add feedback
-          </Button>
-        ) : (
           <Button as={Link} to="/feedback/new" leftIcon={<FaPlus />}>
             Add Feedback
+          </Button>
+        ) : (
+          <Button as={Link} to="/login">
+            Login to add feedback
           </Button>
         )}
       </Box>
