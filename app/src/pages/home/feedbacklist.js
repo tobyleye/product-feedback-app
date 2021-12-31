@@ -4,6 +4,7 @@ import { FeedbackCard } from "../../components/cards";
 import { ReactComponent as NoFeedback } from "../../assets/no-feedback.svg";
 import { Link } from "react-router-dom";
 import { useFeedbackListContext } from "../../context/feedbacklist";
+import { useCurrentUser } from "../../context/currentuser";
 
 let ValidKeyRegex = /[+-].*/;
 
@@ -25,6 +26,7 @@ let sortList = (data, key) => {
 
 export function FeedbackList({ data = [] }) {
   let { sortKey, selectedCategories } = useFeedbackListContext();
+  let currentUser = useCurrentUser();
 
   let sortedList = sortList(
     selectedCategories.length > 0
@@ -57,9 +59,15 @@ export function FeedbackList({ data = [] }) {
             <br /> We love hearing about new ideas to improve our app.
           </Text>
         </Box>
-        <Button as={Link} to="/feedback/new" leftIcon={<FaPlus />}>
-          Add Feedback
-        </Button>
+        {currentUser ? (
+          <Button as={Link} to="/login">
+            Login to add feedback
+          </Button>
+        ) : (
+          <Button as={Link} to="/feedback/new" leftIcon={<FaPlus />}>
+            Add Feedback
+          </Button>
+        )}
       </Box>
     );
   }
