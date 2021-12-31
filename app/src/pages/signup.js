@@ -1,5 +1,5 @@
 import { Button, Box } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { signup as signupMutation } from "../graphql/mutations";
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
@@ -21,6 +21,7 @@ export default function Signup() {
   const [username, setUsername] = useState("");
 
   const [signup, { loading }] = useMutation(signupMutation);
+  const history = useHistory()
 
   const submit = (e) => {
     e.preventDefault();
@@ -34,7 +35,7 @@ export default function Signup() {
         },
         refetchQueries: fetchCurrentUser
       }).then(() => {
-          console.log(':)')
+        history.push('/')
       })
   };
 

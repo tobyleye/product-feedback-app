@@ -1,6 +1,6 @@
 import { Button, Box } from "@chakra-ui/react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useHistory  } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { login as loginMutation } from "../graphql/mutations";
 import {
@@ -20,6 +20,8 @@ export default function Login() {
 
   const [login, { loading }] = useMutation(loginMutation);
 
+  const history = useHistory();
+
   // submit handler
   const submit = (e) => {
     e.preventDefault();
@@ -35,7 +37,7 @@ export default function Login() {
         },
       ],
     }).then(() => {
-      console.log(":)");
+      history.push("/");
     });
   };
 
