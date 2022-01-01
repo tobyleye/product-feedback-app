@@ -4,13 +4,13 @@ export let FeedbackListContext = createContext(null);
 
 export let FeedbackListContextProvider = (props) => {
   let [sortKey, setSortKey] = useState("+upvotes");
-  let [selectedCategories, setSelectedCategories] = useState([]);
+  let [selectedCategory, setSelectedCategory] = useState('');
 
   let value = {
     sortKey,
     setSortKey,
-    selectedCategories,
-    setSelectedCategories,
+    selectedCategory,
+    setSelectedCategory,
   };
 
   return <FeedbackListContext.Provider {...props} value={value} />;

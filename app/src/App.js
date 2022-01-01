@@ -6,11 +6,11 @@ import { FeedbackListContextProvider } from "./context/feedbacklist";
 import { CurrentUserProvider } from "./context/currentuser";
 import theme from "./theme";
 import client from "./client";
+import Home from "./pages/home"
 
 // pages
 const Signup = lazy(() => import("./pages/signup"));
 const Login = lazy(() => import("./pages/login"));
-const Home = lazy(() => import("./pages/home"));
 const FeedbackDetails = lazy(() => import("./pages/feedback-details"));
 const NewFeedback = lazy(() => import("./pages/new-feedback"));
 const EditFeedback = lazy(() => import("./pages/edit-feedback"));
@@ -19,7 +19,7 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <ApolloProvider client={client}>
-        <Suspense fallback={<div></div>}>
+        <Suspense fallback={<div />}>
           <BrowserRouter>
             <FeedbackListContextProvider>
               <CurrentUserProvider>

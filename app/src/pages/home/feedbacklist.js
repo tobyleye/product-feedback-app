@@ -25,14 +25,12 @@ let sortList = (data, key) => {
 };
 
 export function FeedbackList({ data = [] }) {
-  let { sortKey, selectedCategories } = useFeedbackListContext();
+  let { sortKey, selectedCategory } = useFeedbackListContext();
   let currentUser = useCurrentUser();
 
   let sortedList = sortList(
-    selectedCategories.length > 0
-      ? data.filter((feedback) =>
-          selectedCategories.includes(feedback.category)
-        )
+    selectedCategory !== "all"
+      ? data.filter((feedback) => selectedCategory === feedback.category)
       : data,
     sortKey
   );

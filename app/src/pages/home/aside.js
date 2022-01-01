@@ -1,4 +1,3 @@
-import { Button } from "@chakra-ui/button";
 import { VStack, Box, Heading, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
@@ -59,50 +58,56 @@ export function WelcomeCard() {
   );
 }
 
-let filterOptions = ["UI", "UX", "Enhancement", "Bug", "Feature"];
+let filterOptions = ["All", "UI", "UX", "Enhancement", "Bug", "Feature"];
 
+function ToggleButton({ label, value, checked, onClick }) {
+  return (
+    <Box as="label" dsiplay="inline-block">
+      <input
+        type="radio"
+        value={value}
+        checked={checked}
+        onChange={(e) => onClick(e.target.value)}
+        style={{ display: "none" }}
+      />
+      <Box
+        px={3}
+        py={1}
+        rounded="md"
+        cursor="pointer"
+        fontSize="sm"
+        sx={{
+          "&": checked
+            ? {
+                bg: "blue.500",
+                color: "white",
+              }
+            : {
+                bg: "gray.100",
+              },
+        }}
+      >
+        {label}
+      </Box>
+    </Box>
+  );
+}
 export function CategoryFilters() {
-  let { selectedCategories, setSelectedCategories } = useFeedbackListContext();
-
-  let toggleCategory = (category, selected) => {
-    // clean category
-    category = category.toLowerCase();
-    setSelectedCategories((categories) =>
-      selected
-        ? categories.filter((cat) => cat !== category)
-        : categories.concat(category)
-    );
-  };
-
-  // explicitly or implicitly
-  let allSelected =
-    selectedCategories.length === 0 ||
-    selectedCategories.length === filterOptions.length;
+  let { selectedCategory, setSelectedCategory } = useFeedbackListContext();
 
   return (
     <Card>
       <Box display="flex" flexWrap="wrap">
-        <Box mr={2} mb={2}>
-          <Button
-            size="sm"
-            colorScheme={allSelected ? "blue" : null}
-            onClick={() => setSelectedCategories([])}
-          >
-            All
-          </Button>
-        </Box>
         {filterOptions.map((opt) => {
-          let selected = selectedCategories.includes(opt.toLowerCase());
+          let value = opt.toLowerCase();
           return (
             <Box key={opt} mr={2} mb={2}>
-              <Button
-                size="sm"
-                colorScheme={selected ? "blue" : null}
-                key={opt}
-                onClick={() => toggleCategory(opt, selected)}
-              >
-                {opt}
-              </Button>
+              <ToggleButton
+                checked={selectedCategory === value}
+                label={opt}
+                value={value}
+                onClick={setSelectedCategory}
+              />
             </Box>
           );
         })}
@@ -133,17 +138,5 @@ export function Roadmap() {
         </li>
       </VStack>
     </RoadMap>
-  );
-}
-
-
-export default function Aside() {
-
-  return (
-    <Box>
-      <WelcomeCard />
-      <CategoryFilters />
-      <RoadMap />
-    </Box>
   );
 }

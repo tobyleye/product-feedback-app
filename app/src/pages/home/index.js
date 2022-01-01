@@ -6,11 +6,11 @@ import { WelcomeCard, CategoryFilters, Roadmap } from "./aside";
 import { FeedbackList } from "./feedbacklist";
 import Header from "./header";
 import { MobileMenu } from "./mobilemenu";
-import { useCurrentUser } from "../../context/currentuser";
+// import { useCurrentUser } from "../../context/currentuser";
 
 export default function Home() {
   const { data } = useQuery(fetchFeedbackList);
-  const currentUser = useCurrentUser();
+  // const currentUser = useCurrentUser();
 
   return (
     <Box>
@@ -19,7 +19,7 @@ export default function Home() {
         <Header totalSuggestions={data?.feedbackRequests?.length} />
       </Box>
       <Padded>
-        {JSON.stringify(currentUser)}
+        {/* {JSON.stringify(currentUser)} */}
         <Box maxW="1080" mx="auto">
           <Box display="grid" gridTemplateColumns={{ lg: "auto 1fr" }} gap={8}>
             <Box
