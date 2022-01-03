@@ -24,7 +24,7 @@ export default function CommentForm({ feedbackId }) {
 
   return (
     <Card mb={6}>
-      <Heading size="md" mb={6}>
+      <Heading variant="h3" as="h3" mb={6}>
         Add comment
       </Heading>
       <form
@@ -57,7 +57,6 @@ export default function CommentForm({ feedbackId }) {
           onChange={(e) => setComment(e.target.value)}
           disabled={!currentUser}
         />
-
         {currentUser ? (
           <Box
             display="flex"

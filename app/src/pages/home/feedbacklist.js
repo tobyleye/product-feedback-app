@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Heading, Text, VStack, Icon } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import { FeedbackCard } from "../../components/cards";
 import { ReactComponent as NoFeedback } from "../../assets/no-feedback.svg";
@@ -47,14 +47,18 @@ export function FeedbackList({ data = [] }) {
         px="4rem"
         rounded="lg"
       >
-        <NoFeedback />
-        <Heading size="h1" mt={12} mb={4}>
+        <Icon
+          as={NoFeedback}
+          width={{ base: "100px", md: "150px" }}
+          height={{ base: "100px", md: "150px" }}
+        />
+        <Heading variant="h1" mt={{ base: 8, md: 12 }} mb={4}>
           There is no feedback yet
         </Heading>
         <Box mb={10}>
-          <Text size="body1">
+          <Text size="body1" maxWidth="450px">
             Got a suggestion? Found a bug that needs to be squashed?
-            <br /> We love hearing about new ideas to improve our app.
+            We love hearing about new ideas to improve our app.
           </Text>
         </Box>
         {currentUser ? (

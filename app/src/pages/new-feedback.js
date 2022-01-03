@@ -103,11 +103,11 @@ export default function NewFeedback() {
             flexDir={["column-reverse", "row"]}
             justifyContent={["stretch",'flex-end']}
           >
-            <Button as={Link} colorScheme="gray" to="/">
+            <Button as={Link} variant="gray" to="/">
               Cancel
             </Button>
             <Box w={4} h={4} />
-            <Button isLoading={loading} colorScheme="blue" type="submit">
+            <Button isLoading={loading} type="submit">
               Add Feedback
             </Button>
           </Box>

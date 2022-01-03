@@ -71,20 +71,22 @@ function ToggleButton({ label, value, checked, onClick }) {
         style={{ display: "none" }}
       />
       <Box
-        px={3}
-        py={1}
-        rounded="md"
+        aria-checked={checked}
+        bg="gray.1"
+        color="blue.1"
+        px="14px"
+        py="10px"
+        fontSize="13px"
+        rounded="10px"
         cursor="pointer"
-        fontSize="sm"
-        sx={{
-          "&": checked
-            ? {
-                bg: "blue.500",
-                color: "white",
-              }
-            : {
-                bg: "gray.100",
-              },
+        fontWeight="600"
+        _hover={{
+          bg: "#CFD7FF",
+          color: "blue.1",
+        }}
+        _checked={{
+          bg: "blue.1",
+          color: "white",
         }}
       >
         {label}

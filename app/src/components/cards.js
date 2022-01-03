@@ -20,16 +20,16 @@ let noop = () => undefined;
 let UpvoteButton = ({ onClick = noop, upvotes = "", horizontal = false }) => {
   return (
     <Button
+      variant="interactive"
       flexDirection={horizontal ? "row" : "column"}
-      py={2}
-      px={2}
+      
       height="auto"
       rounded="lg"
       onClick={onClick}
     >
       <FaChevronUp />
-      <Box w={2} h={2} />
-      <span>{upvotes}</span>
+      <Box w={1} h={1} />
+      <Text color="gray.5">{upvotes}</Text>
     </Button>
   );
 };
@@ -60,22 +60,27 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
           <UpvoteButton upvotes={feedback.upvotes} onClick={handleUpvote} />
         </Box>
         <Box>
-          <Heading size="h3" as="h3">
+          <Heading variant="h3" as="h3" mb={1}>
             {disableLink ? (
               <span>{feedback.title}</span>
             ) : (
               <Link to={`/feedback/${feedback.id}`}>{feedback.title}</Link>
             )}
           </Heading>
-          <Text size="body1" mt={2} mb={3}>
+          <Text variant="body1" mb={4}>
             {feedback.detail}
           </Text>
           <Box className="feedback-category">
-            <Button size="sm">{feedback.category}</Button>
+            <Box as="span" px="14px" py="10px" fontWeight="700"  fontSize="13px" color="blue.1" bg="gray.1" rounded="10px" >{feedback.category}</Box>
           </Box>
         </Box>
 
-        <Box mt={[4,null]} display="flex" justifyContent="space-between" alignItems="center">
+        <Box
+          mt={[4, null]}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Box display={["block", "none"]}>
             <UpvoteButton
               horizontal

@@ -14,6 +14,7 @@ import { Padded } from "../components/layouts";
 import { BackButton } from "../components/buttons";
 import { gql } from "@apollo/client";
 import { useHistory, Redirect, useParams, Link } from "react-router-dom";
+import { useCurrentUser } from "../context/currentuser";
 
 let editFeedbackMutation = gql`
   mutation updateFeedbackRequest(
@@ -150,7 +151,7 @@ let EditForm = ({ feedback: _feedback = {} }) => {
               isLoading={deleting}
               onClick={handleDelete}
               type="button"
-              colorScheme="red"
+              variant="red"
             >
               Delete
             </Button>
@@ -162,12 +163,12 @@ let EditForm = ({ feedback: _feedback = {} }) => {
               flexDir={["column-reverse", "row"]}
               spacing={4}
             >
-              <Button as={Link} color="gray" to="/">
+              <Button as={Link} variant="gray" to="/">
                 Cancel
               </Button>
               <Box w={4} h={4} />
 
-              <Button isLoading={saving} colorScheme="blue" type="submit">
+              <Button isLoading={saving} type="submit">
                 Save Changes
               </Button>
             </Box>
@@ -178,7 +179,8 @@ let EditForm = ({ feedback: _feedback = {} }) => {
   );
 };
 
-export default function EditFeedback({ currentUser }) {
+export default function EditFeedback() {
+  let currentUser = useCurrentUser()
   let { id } = useParams();
   const { data } = useQuery(fetchFeedback, {
     variables: {

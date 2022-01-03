@@ -38,7 +38,7 @@ export default function FeedbackDetailsPage() {
             <Button
               as={Link}
               to={`/feedback/${feedback?.id}/edit`}
-              color="primary"
+              variant="blue"
             >
               Edit Feedback
             </Button>

@@ -4,7 +4,7 @@ export let FeedbackListContext = createContext(null);
 
 export let FeedbackListContextProvider = (props) => {
   let [sortKey, setSortKey] = useState("+upvotes");
-  let [selectedCategory, setSelectedCategory] = useState('');
+  let [selectedCategory, setSelectedCategory] = useState('all');
 
   let value = {
     sortKey,
