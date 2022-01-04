@@ -6,7 +6,6 @@ import { CurrentUserProvider } from "./context/currentuser";
 import theme from "./theme";
 import client from "./client";
 import Home from "./pages/home";
-import { Center, Button, Heading, Text } from "@chakra-ui/react";
 
 // pages
 const Signup = lazy(() => import("./pages/signup"));
@@ -41,9 +40,6 @@ function App() {
                 <Route path="/login">
                   <Login />
                 </Route>
-                <Route>
-                  <Experiments />
-                </Route>
                 <Redirect from="*" to="/" />
               </Switch>
             </CurrentUserProvider>
@@ -55,26 +51,3 @@ function App() {
 }
 
 export default App;
-
-function Experiments() {
-  return (
-    <Center h="100vh" flexDir="column">
-      <Button>click me</Button>
-      <Button variant="red" isLoading>
-        click me
-      </Button>
-      <Button variant="purple" isLoading>
-        click me
-      </Button>
-      <Button variant="gray" isLoading>
-        click me
-      </Button>
-      <Heading variant="h1">Hello world</Heading>
-      <Heading variant="h2">Hello world</Heading>
-      <Heading variant="h3">Hello world</Heading>
-      <Heading variant="h4">Hello world</Heading>
-      <Text variant="body">Hello world</Text>
-      <Text variant="body2">Hello world</Text>
-    </Center>
-  );
-}
