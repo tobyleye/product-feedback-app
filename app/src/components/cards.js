@@ -1,6 +1,5 @@
-import { Box, Button, Heading, Text, HStack } from "@chakra-ui/react";
-
-import { FaChevronUp, FaComment } from "react-icons/fa";
+import { Box, Button, Heading, Text, HStack, Icon } from "@chakra-ui/react";
+import { FaChevronUp, FaComment} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import { fetchFeedbackList } from "../graphql/queries";
@@ -54,7 +53,7 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
       <Box
         display={["block", "grid"]}
         gridTemplateColumns={[null, "auto 1fr auto"]}
-        gap={6}
+        gap={8}
       >
         <Box display={["none", "block"]}>
           <UpvoteButton upvotes={feedback.upvotes} onClick={handleUpvote} />
@@ -76,7 +75,7 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
         </Box>
 
         <Box
-          mt={[4, null]}
+          mt={[6, 0]}
           display="flex"
           justifyContent="space-between"
           alignItems="center"
@@ -89,8 +88,8 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
             />
           </Box>
           <HStack spacing={2}>
-            <FaComment />
-            <span>{feedback?.comments?.length}</span>
+            <Icon as={FaComment} color="#CDD2EE" />
+            <Text fontWeight="800" fontSize="md" color="gray.5" >{feedback?.comments?.length}</Text>
           </HStack>
         </Box>
       </Box>
