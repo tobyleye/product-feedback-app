@@ -1,4 +1,4 @@
-import { Box, Button} from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import {
   Form,
   FormLayout,
@@ -26,6 +26,9 @@ let createNewFeedback = gql`
     }
   }
 `;
+
+let capitalizeFirstLetter = (str) => str? str[0].toUpperCase() + str.slice(1): '';
+
 export default function NewFeedback() {
   const [feedback, setFeedback] = useState({
     title: "",
@@ -38,7 +41,10 @@ export default function NewFeedback() {
   let handleChange = (name) => (e) =>
     setFeedback((fb) => ({
       ...fb,
-      [name]: e.target.value,
+      [name]:
+        name === "title"
+          ? capitalizeFirstLetter(e.target.value)
+          : e.target.value,
     }));
 
   let history = useHistory();
@@ -68,6 +74,7 @@ export default function NewFeedback() {
             <FaPlus />
           </FormIcon>
           <FormTitle>Create New Feedback</FormTitle>
+
           <FormField
             type="text"
             label="Feedback Title"
@@ -101,7 +108,7 @@ export default function NewFeedback() {
             w="full"
             display="flex"
             flexDir={["column-reverse", "row"]}
-            justifyContent={["stretch",'flex-end']}
+            justifyContent={["stretch", "flex-end"]}
           >
             <Button as={Link} variant="gray" to="/">
               Cancel
