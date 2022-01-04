@@ -12,10 +12,12 @@ import {
   HStack,
   Button,
 } from "@chakra-ui/react";
+import { gql, useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { useCurrentUser } from "../../context/currentuser";
 import { useHomeContext } from "./context";
+import { fetchCurrentUser } from "../../graphql/queries";
 
 let Card = (props) => <Box p={4} rounded="lg" bg="white" {...props} />;
 
@@ -56,14 +58,26 @@ let MenuToggle = ({ isOpen, ...props }) => {
   );
 };
 
+let logoutMutation = gql`
+  mutation logout {
+    logout {
+      id
+    }
+  }
+`;
+
 export function Nav() {
   const { isOpen, onClose, onToggle } = useDisclosure();
   const btnRef = useRef();
   const currentUser = useCurrentUser();
 
-  let logout = () => {
-    console.log('logout ---')
-  }
+  const [logout] = useMutation(logoutMutation, {
+    refetchQueries: [
+      {
+        query: fetchCurrentUser,
+      },
+    ],
+  });
 
   return (
     <Box h={{ base: "70px", md: "auto" }}>
@@ -90,9 +104,13 @@ export function Nav() {
       >
         <HStack spacing={5}>
           {currentUser ? (
-            <Button  onClick={logout} variant="link" color="white">Logout</Button>
+            <Button onClick={logout} variant="link" color="white">
+              Logout
+            </Button>
           ) : (
-            <Link to="/login">Login</Link>
+            <Button as={Link} to="/login" variant="link" color="white">
+              Login
+            </Button>
           )}
           <Box display={{ base: "block", md: "none" }}>
             <MenuToggle isOpen={isOpen} onClick={onToggle} />

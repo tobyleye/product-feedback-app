@@ -102,13 +102,13 @@ export default function Home() {
             >
               <Box
                 display={{ base: "none", md: "flex" }}
-                mr={6}
+                mr={8}
                 color="white"
                 alignItems="flex-start"
                 gap={2}
               >
                 <BulbIcon />
-                <Text fontSize="18px" fontWeight="bold">
+                <Text ml={1} fontSize="18px" fontWeight="bold">
                   {feedbackList.length} Suggestions
                 </Text>
               </Box>
@@ -184,11 +184,11 @@ export default function Home() {
 let SortOptions = ({ value, onChange = () => {} }) => {
   return (
     <Menu>
-      <MenuButton color="#F2F4FE">
-        <Text size="body2" as="span" mr={2}>
+      <MenuButton fontSize="14" color="gray.1">
+        <Text as="span" mr={2}>
           Sort by:
         </Text>
-        <Text as="span" fontWeight="700">
+        <Text as="span" fontWeight="bold">
           {value}
         </Text>
       </MenuButton>

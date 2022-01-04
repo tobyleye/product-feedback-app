@@ -60,9 +60,9 @@ export default function ReplyForm({ feedbackId, commentId, onClose}) {
         <Box display="flex" alignItems="center" justifyContent="flex-end">
           <Button
             size="sm"
+            variant="red"
             onClick={onClose}
             type="button"
-            colorScheme="red"
             disabled={loading}
           >
             Cancel
