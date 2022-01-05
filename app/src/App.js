@@ -6,6 +6,8 @@ import { CurrentUserProvider } from "./context/currentuser";
 import theme from "./theme";
 import client from "./client";
 import Home from "./pages/home";
+import { UpvotedFeedbackProvider } from "./context/upvoted-feedback";
+
 
 // pages
 const Signup = lazy(() => import("./pages/signup"));
@@ -13,6 +15,8 @@ const Login = lazy(() => import("./pages/login"));
 const FeedbackDetails = lazy(() => import("./pages/feedback-details"));
 const NewFeedback = lazy(() => import("./pages/new-feedback"));
 const EditFeedback = lazy(() => import("./pages/edit-feedback"));
+const Roadmap = lazy(() => import("./pages/roadmap"));
+
 
 function App() {
   return (
@@ -21,6 +25,8 @@ function App() {
         <Suspense fallback={<div />}>
           <BrowserRouter>
             <CurrentUserProvider>
+            <UpvotedFeedbackProvider>
+
               <Switch>
                 <Route path="/" exact>
                   <Home />
@@ -40,8 +46,13 @@ function App() {
                 <Route path="/login">
                   <Login />
                 </Route>
+                <Route path="/roadmap">
+                  <Roadmap />
+                  </Route>
                 <Redirect from="*" to="/" />
               </Switch>
+              </UpvotedFeedbackProvider>
+
             </CurrentUserProvider>
           </BrowserRouter>
         </Suspense>

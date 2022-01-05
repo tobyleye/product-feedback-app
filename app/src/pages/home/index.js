@@ -70,12 +70,15 @@ export default function Home() {
     return [];
   }, [data, selectedCategory, sortKey]);
 
-  let contextValue = useMemo(() => ({
-    sortKey,
-    setSortKey,
-    selectedCategory,
-    setSelectedCategory
-  }), [selectedCategory, sortKey])
+  let contextValue = useMemo(
+    () => ({
+      sortKey,
+      setSortKey,
+      selectedCategory,
+      setSelectedCategory,
+    }),
+    [selectedCategory, sortKey]
+  );
 
   return (
     <HomeContext.Provider value={contextValue}>

@@ -1,8 +1,11 @@
-import { Box, Button, Heading, Text, HStack, Icon } from "@chakra-ui/react";
-import { FaChevronUp, FaComment} from "react-icons/fa";
+import { Box, Button, Heading, Text, HStack, Icon, useToast} from "@chakra-ui/react";
+import { FaChevronUp, FaComment } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import { fetchFeedbackList } from "../graphql/queries";
+import { useUpvoted } from "../context/upvoted-feedback";
+import { useCurrentUser } from "../context/currentuser"
+
 
 export let Card = (props) => <Box bg="white" p={8} rounded="lg" {...props} />;
 
@@ -16,27 +19,47 @@ let upvoteMutation = gql`
 
 let noop = () => undefined;
 
-let UpvoteButton = ({ onClick = noop, upvotes = "", horizontal = false }) => {
+let UpvoteButton = ({
+  checked,
+  onClick = noop,
+  upvotes = "",
+  horizontal = false,
+}) => {
   return (
     <Button
+      aria-checked={checked}
       variant="interactive"
       flexDirection={horizontal ? "row" : "column"}
-      
       height="auto"
       rounded="lg"
+      _checked={{
+        bg: "blue.1",
+        color: "white",
+      }}
       onClick={onClick}
     >
       <FaChevronUp />
       <Box w={1} h={1} />
-      <Text color="gray.5">{upvotes}</Text>
+      <Text color={checked ? 'white': "gray.5"}>{upvotes}</Text>
     </Button>
   );
 };
 
 export let FeedbackCard = ({ feedback, disableLink = false }) => {
   let [upvote] = useMutation(upvoteMutation);
+  let [upvotedRequests, setUpvotedRequests] = useUpvoted();
+  let currentUser = useCurrentUser()
+  let toast = useToast()
 
   let handleUpvote = () => {
+    if (!currentUser) {
+      toast({
+        status: 'error',
+        description: 'You have to be logged in to upvote a feedback request'
+      })
+      return
+    }
+    if (upvotedRequests.includes(feedback.id)) return;
     upvote({
       variables: {
         id: feedback.id,
@@ -46,8 +69,11 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
           query: fetchFeedbackList,
         },
       ],
+    }).then(() => {
+      setUpvotedRequests((requests) => requests.concat(feedback.id));
     });
   };
+
   return (
     <Card as="article">
       <Box
@@ -56,7 +82,11 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
         gap={8}
       >
         <Box display={["none", "block"]}>
-          <UpvoteButton upvotes={feedback.upvotes} onClick={handleUpvote} />
+          <UpvoteButton
+            checked={upvotedRequests.includes(feedback.id)}
+            upvotes={feedback.upvotes}
+            onClick={handleUpvote}
+          />
         </Box>
         <Box>
           <Heading variant="h3" as="h3" mb={1}>
@@ -70,7 +100,18 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
             {feedback.detail}
           </Text>
           <Box className="feedback-category">
-            <Box as="span" px="14px" py="10px" fontWeight="700"  fontSize="13px" color="blue.1" bg="gray.1" rounded="10px" >{feedback.category}</Box>
+            <Box
+              as="span"
+              px="14px"
+              py="10px"
+              fontWeight="700"
+              fontSize="13px"
+              color="blue.1"
+              bg="gray.1"
+              rounded="10px"
+            >
+              {feedback.category}
+            </Box>
           </Box>
         </Box>
 
@@ -82,6 +123,7 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
         >
           <Box display={["block", "none"]}>
             <UpvoteButton
+              checked={upvotedRequests.includes(feedback.id)}
               horizontal
               upvotes={feedback.upvotes}
               onClick={handleUpvote}
@@ -89,7 +131,9 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
           </Box>
           <HStack spacing={2}>
             <Icon as={FaComment} color="#CDD2EE" />
-            <Text fontWeight="800" fontSize="md" color="gray.5" >{feedback?.comments?.length}</Text>
+            <Text fontWeight="800" fontSize="md" color="gray.5">
+              {feedback?.comments?.length}
+            </Text>
           </HStack>
         </Box>
       </Box>
