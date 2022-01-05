@@ -166,6 +166,7 @@ export default function Home() {
                 as="ul"
                 listStyleType="none"
                 px={{ base: 4, md: 0 }}
+                mb={5}
               >
                 {feedbackList.map((feedback) => (
                   <li key={feedback.id}>

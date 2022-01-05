@@ -18,6 +18,8 @@ import { useRef } from "react";
 import { useCurrentUser } from "../../context/currentuser";
 import { useHomeContext } from "./context";
 import { fetchCurrentUser } from "../../graphql/queries";
+import {FiLogIn,FiLogOut} from "react-icons/fi"
+
 
 let Card = (props) => <Box p={4} rounded="lg" bg="white" {...props} />;
 
@@ -104,11 +106,11 @@ export function Nav() {
       >
         <HStack spacing={5}>
           {currentUser ? (
-            <Button onClick={logout} variant="link" color="white">
+            <Button leftIcon={<FiLogOut/>} onClick={logout} variant="link" color="white">
               Logout
             </Button>
           ) : (
-            <Button as={Link} to="/login" variant="link" color="white">
+            <Button leftIcon={<FiLogIn />} as={Link} to="/login" variant="link" color="white">
               Login
             </Button>
           )}
