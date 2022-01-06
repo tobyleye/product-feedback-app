@@ -15,6 +15,7 @@ import { BackButton } from "../components/buttons";
 import { gql } from "@apollo/client";
 import { useHistory, Redirect, useParams, Link } from "react-router-dom";
 import { useCurrentUser } from "../context/currentuser";
+import {Helmet} from "react-helmet"
 
 let editFeedbackMutation = gql`
   mutation updateFeedbackRequest(
@@ -103,6 +104,11 @@ let EditForm = ({ feedback: _feedback = {} }) => {
 
   return (
     <Padded>
+      <Helmet>
+        <title>
+          Editing {feedback.title} | Product Feedback App
+        </title>
+      </Helmet>
       <FormLayout>
         <Box mb={2}>
           <BackButton />

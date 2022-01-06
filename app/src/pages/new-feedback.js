@@ -14,6 +14,8 @@ import { BackButton } from "../components/buttons";
 import { gql, useMutation } from "@apollo/client";
 import { fetchFeedbackList } from "../graphql/queries";
 import { useHistory } from "react-router-dom";
+import {Helmet} from "react-helmet"
+
 
 let createNewFeedback = gql`
   mutation addFeedbackRequest(
@@ -65,6 +67,11 @@ export default function NewFeedback() {
 
   return (
     <Padded>
+       <Helmet>
+        <title>
+          Create new feedback | Product Feedback App
+        </title>
+      </Helmet>
       <FormLayout>
         <Box mb={2}>
           <BackButton />

@@ -9,11 +9,12 @@ import { Link } from "react-router-dom";
 import { Padded } from "../../components/layouts";
 import { Comment } from "./comment";
 import { useCurrentUser } from "../../context/currentuser";
+import { Helmet } from "react-helmet";
 
 export default function FeedbackDetailsPage() {
   const { id } = useParams();
 
-  const { data, loading } = useQuery(fetchFeedback, {
+  const { data } = useQuery(fetchFeedback, {
     variables: {
       id,
     },
@@ -23,14 +24,15 @@ export default function FeedbackDetailsPage() {
 
   let feedback = data?.feedbackRequest;
 
-  console.log({
-    feedback,
-    data,
-    loading,
-  });
-
   return (
     <Padded>
+      <Helmet>
+        <title>
+          {feedback
+            ? `${feedback.title} by @${feedback?.user?.username || "johndoe"}`
+            : ""}
+        </title>
+      </Helmet>
       <Box maxWidth="800px" mx="auto">
         <Box as="header" display="flex" mb={5} justifyContent="space-between">
           <BackButton />

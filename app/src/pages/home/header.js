@@ -110,7 +110,7 @@ export function Nav() {
               Logout
             </Button>
           ) : (
-            <Button leftIcon={<FiLogIn />} as={Link} to="/login" variant="link" color="white">
+            <Button leftIcon={<FiLogIn />} as={Link} to="/auth/login" variant="link" color="white">
               Login
             </Button>
           )}
