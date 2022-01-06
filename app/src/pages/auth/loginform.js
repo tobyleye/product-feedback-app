@@ -29,7 +29,8 @@ let LoginForm = () => {
           query: fetchCurrentUser,
         },
       ],
-    }).then(() => {
+    }).then((result) => {
+        alert(JSON.stringify(result))
       history.push("/");
     });
   };
