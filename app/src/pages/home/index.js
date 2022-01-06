@@ -22,6 +22,7 @@ import { FeedbackCard } from "../../components/cards";
 import { ReactComponent as NoFeedback } from "../../assets/no-feedback.svg";
 import Header from "./header";
 import { HomeContext } from "./context";
+import { Helmet } from "react-helmet";
 
 let sortOptions = [
   "Most Upvotes",
@@ -82,6 +83,13 @@ export default function Home() {
 
   return (
     <HomeContext.Provider value={contextValue}>
+      <Helmet>
+        <title>
+          {loading
+            ? "loading feedback... | Product Feedback App"
+            : `${feedbackList.length} total suggestions | Product Feedback App`}
+        </title>
+      </Helmet>
       <Box
         maxWidth="1080px"
         mx="auto"
