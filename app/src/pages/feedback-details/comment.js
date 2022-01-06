@@ -23,10 +23,11 @@ export function Comment({
     onToggle: toggleReplyForm,
   } = useDisclosure();
 
-  let currentUser = useCurrentUser();
+  let [currentUser] = useCurrentUser();
 
   return (
     <Box>
+      
       <Box display="flex" mb={3}>
         <Box display={["none", "block"]} flexShrink={0} mr={8}>
           <Avatar size="md" name={user?.fullname} />

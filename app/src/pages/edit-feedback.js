@@ -186,7 +186,7 @@ let EditForm = ({ feedback: _feedback = {} }) => {
 };
 
 export default function EditFeedback() {
-  let currentUser = useCurrentUser()
+  let [currentUser] = useCurrentUser()
   let { id } = useParams();
   const { data } = useQuery(fetchFeedback, {
     variables: {
@@ -197,7 +197,7 @@ export default function EditFeedback() {
   let feedback = data?.feedbackRequest;
 
   if (feedback) {
-    if (feedback.user.id === currentUser.id) {
+    if (feedback.user && feedback.user.id === currentUser.id) {
       return <EditForm feedback={feedback} />;
     } else {
       return <Redirect to="/" />;

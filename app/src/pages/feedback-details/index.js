@@ -20,7 +20,7 @@ export default function FeedbackDetailsPage() {
     },
   });
 
-  const currentUser = useCurrentUser();
+  const [currentUser] = useCurrentUser();
 
   let feedback = data?.feedbackRequest;
 
@@ -36,7 +36,7 @@ export default function FeedbackDetailsPage() {
       <Box maxWidth="800px" mx="auto">
         <Box as="header" display="flex" mb={5} justifyContent="space-between">
           <BackButton />
-          {feedback && currentUser && feedback.user?.id === currentUser.id && (
+          {feedback && currentUser && feedback?.user?.id === currentUser.id && (
             <Button
               as={Link}
               to={`/feedback/${feedback?.id}/edit`}
