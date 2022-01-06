@@ -4,8 +4,8 @@ import { FormField } from "../../components/form";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { signup as signupMutation } from "../../graphql/mutations";
-import { fetchCurrentUser } from "../../graphql/queries";
 import Helmet from "react-helmet";
+import { useCurrentUser } from "../../context/currentuser";
 
 let SignupForm = () => {
   const [email, setEmail] = useState("");
@@ -15,29 +15,31 @@ let SignupForm = () => {
 
   const [signup, { loading }] = useMutation(signupMutation);
   const history = useHistory();
+  const [_, refetchUser] = useCurrentUser();
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-
-    signup({
-      variables: {
-        username,
-        password,
-        email,
-        fullname,
-      },
-      refetchQueries: fetchCurrentUser,
-    }).then(() => {
+    try {
+      await signup({
+        variables: {
+          username,
+          password,
+          email,
+          fullname,
+        },
+      });
+      await refetchUser();
       history.push("/");
-    });
+    } catch (err) {
+      // handle error
+    }
   };
+
   return (
     <form onSubmit={submit}>
       <Helmet>
         <title>Signup | Product Feedback App</title>
       </Helmet>
-
-      {/* <FormTitle>Register</FormTitle> */}
 
       <FormField
         type="email"

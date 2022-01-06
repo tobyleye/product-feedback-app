@@ -5,21 +5,27 @@ import {
   Route,
   Redirect,
   useLocation,
-  useRouteMatch
+  useRouteMatch,
 } from "react-router-dom";
 import { Padded } from "../../components/layouts";
 import { FormLayout } from "../../components/form";
 import { lazy, Suspense } from "react";
+import { useCurrentUser } from "../../context/currentuser";
 
 let LoginForm = lazy(() => import("./loginform"));
 let SignupForm = lazy(() => import("./signupform"));
 
 let Auth = () => {
   let location = useLocation();
-    let { path:parentPath  } =useRouteMatch()
+  let { path: parentPath } = useRouteMatch();
 
   let isLogin = location.pathname.endsWith("/login");
+  let [currentUser] = useCurrentUser();
 
+  if (currentUser) {
+    return <Redirect to="/" />;
+  }
+  
   return (
     <Box>
       <Padded>
@@ -61,13 +67,13 @@ let Auth = () => {
             </Box>
             <Suspense fallback={<div />}>
               <Switch>
-                <Route path={parentPath +"/login"}>
+                <Route path={parentPath + "/login"}>
                   <LoginForm />
                 </Route>
-                <Route path={parentPath+'/signup'}>
+                <Route path={parentPath + "/signup"}>
                   <SignupForm />
                 </Route>
-                <Redirect from="*" to={parentPath+ '/login'} />
+                <Redirect from="*" to={parentPath + "/login"} />
               </Switch>
             </Suspense>
           </Box>
