@@ -8,7 +8,6 @@ import client from "./client";
 import Home from "./pages/home";
 import { UpvotedFeedbackProvider } from "./context/upvoted-feedback";
 
-
 // pages
 const Signup = lazy(() => import("./pages/signup"));
 const Login = lazy(() => import("./pages/login"));
@@ -16,7 +15,7 @@ const FeedbackDetails = lazy(() => import("./pages/feedback-details"));
 const NewFeedback = lazy(() => import("./pages/new-feedback"));
 const EditFeedback = lazy(() => import("./pages/edit-feedback"));
 const Roadmap = lazy(() => import("./pages/roadmap"));
-
+const Auth = lazy(() => import("./pages/auth"));
 
 function App() {
   return (
@@ -25,34 +24,35 @@ function App() {
         <Suspense fallback={<div />}>
           <BrowserRouter>
             <CurrentUserProvider>
-            <UpvotedFeedbackProvider>
-
-              <Switch>
-                <Route path="/" exact>
-                  <Home />
-                </Route>
-                <Route path="/feedback/new">
-                  <NewFeedback />
-                </Route>
-                <Route path="/feedback/:id/edit">
-                  <EditFeedback />
-                </Route>
-                <Route path="/feedback/:id">
-                  <FeedbackDetails />
-                </Route>
-                <Route path="/signup">
-                  <Signup />
-                </Route>
-                <Route path="/login">
-                  <Login />
-                </Route>
-                <Route path="/roadmap">
-                  <Roadmap />
+              <UpvotedFeedbackProvider>
+                <Switch>
+                  <Route path="/" exact>
+                    <Home />
                   </Route>
-                <Redirect from="*" to="/" />
-              </Switch>
+                  <Route path="/feedback/new">
+                    <NewFeedback />
+                  </Route>
+                  <Route path="/feedback/:id/edit">
+                    <EditFeedback />
+                  </Route>
+                  <Route path="/feedback/:id">
+                    <FeedbackDetails />
+                  </Route>
+                  <Route path="/signup">
+                    <Signup />
+                  </Route>
+                  <Route path="/login">
+                    <Login />
+                  </Route>
+                  <Route path="/roadmap">
+                    <Roadmap />
+                  </Route>
+                  <Route path="/auth">
+                    <Auth />
+                  </Route>
+                  <Redirect from="*" to="/" />
+                </Switch>
               </UpvotedFeedbackProvider>
-
             </CurrentUserProvider>
           </BrowserRouter>
         </Suspense>
