@@ -9,8 +9,6 @@ import Home from "./pages/home";
 import { UpvotedFeedbackProvider } from "./context/upvoted-feedback";
 
 // pages
-const Signup = lazy(() => import("./pages/signup"));
-const Login = lazy(() => import("./pages/login"));
 const FeedbackDetails = lazy(() => import("./pages/feedback-details"));
 const NewFeedback = lazy(() => import("./pages/new-feedback"));
 const EditFeedback = lazy(() => import("./pages/edit-feedback"));
@@ -37,12 +35,6 @@ function App() {
                   </Route>
                   <Route path="/feedback/:id">
                     <FeedbackDetails />
-                  </Route>
-                  <Route path="/signup">
-                    <Signup />
-                  </Route>
-                  <Route path="/login">
-                    <Login />
                   </Route>
                   <Route path="/roadmap">
                     <Roadmap />
