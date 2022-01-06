@@ -4,49 +4,41 @@ import { FormField } from "../../components/form";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { login as loginMutation } from "../../graphql/mutations";
+import { fetchCurrentUser } from "../../graphql/queries";
 import { Helmet } from "react-helmet";
-import { useCurrentUser } from "../../context/currentuser";
-import { useLocation } from "react-router-dom";
-
-let useSearchParams = () => {
-  let location = useLocation();
-  let searchParams = new URLSearchParams(location.search);
-  let result = {};
-  searchParams.forEach((val, key) => {
-    result[key] = val;
-  });
-  return result;
-};
 
 let LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [login, { loading }] = useMutation(loginMutation);
 
   const history = useHistory();
-  const { returnUrl } = useSearchParams();
 
-  // eslint-disable-next-line no-unused-vars
-  const [_, refetchUser] = useCurrentUser();
-
-  const submit = async (e) => {
+  // submit handler
+  const submit = (e) => {
     e.preventDefault();
-    try {
-      await login({
-        variables: {
-          password,
-          email,
-        },
-      });
-      await refetchUser();
 
-      let path = returnUrl && returnUrl.startsWith("/") ? returnUrl : "/";
-      history.push(path);
-    } catch (err) {}
+    login({
+      variables: {
+        password,
+        email,
+      },
+      refetchQueries: [
+        {
+          query: fetchCurrentUser,
+        },
+      ],
+    }).then((result) => {
+        alert(JSON.stringify(result))
+      history.push("/");
+    });
   };
 
   return (
     <form onSubmit={submit}>
+      {/* <FormTitle>Login</FormTitle> */}
+
       <Helmet>
         <title>Login | Product Feedback App</title>
       </Helmet>

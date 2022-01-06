@@ -48,7 +48,7 @@ let UpvoteButton = ({
 export let FeedbackCard = ({ feedback, disableLink = false }) => {
   let [upvote] = useMutation(upvoteMutation);
   let [upvotedRequests, setUpvotedRequests] = useUpvoted();
-  let [currentUser] = useCurrentUser()
+  let currentUser = useCurrentUser()
   let toast = useToast()
 
   let handleUpvote = () => {

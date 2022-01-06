@@ -20,7 +20,7 @@ let addComment = gql`
 export default function CommentForm({ feedbackId }) {
   let [comment, setComment] = useState("");
   let [postComment, { loading }] = useMutation(addComment);
-  let [currentUser] = useCurrentUser();
+  let currentUser = useCurrentUser();
 
   return (
     <Card mb={6}>

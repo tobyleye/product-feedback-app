@@ -71,7 +71,7 @@ let logoutMutation = gql`
 export function Nav() {
   const { isOpen, onClose, onToggle } = useDisclosure();
   const btnRef = useRef();
-  const [currentUser] = useCurrentUser();
+  const currentUser = useCurrentUser();
 
   const [logout] = useMutation(logoutMutation, {
     refetchQueries: [
