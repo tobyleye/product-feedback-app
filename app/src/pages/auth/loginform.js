@@ -38,10 +38,14 @@ let LoginForm = () => {
           email,
         },
       });
-      await refetchUser();
+      let user = await refetchUser();
+
+      alert(JSON.stringify(user?.data?.currentUser))
 
       let path = returnUrl && returnUrl.startsWith("/") ? returnUrl : "/";
-      history.push(path);
+      setTimeout(() => {
+        history.push(path);
+      }, 200);
     } catch (err) {}
   };
 

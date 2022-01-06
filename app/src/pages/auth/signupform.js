@@ -15,6 +15,7 @@ let SignupForm = () => {
 
   const [signup, { loading }] = useMutation(signupMutation);
   const history = useHistory();
+  // eslint-disable-next-line no-unused-vars
   const [_, refetchUser] = useCurrentUser();
 
   const submit = async (e) => {

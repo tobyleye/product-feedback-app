@@ -7,6 +7,8 @@ let CurrentUserContext = createContext(null);
 
 export function CurrentUserProvider(props) {
   let { loading, data, refetch } = useQuery(fetchCurrentUser);
+  
+  // alert(JSON.stringify(data?.currentUser))
 
   let value = useMemo(() => [data?.currentUser, refetch], [data, refetch]);
 
