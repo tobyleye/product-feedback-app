@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { useQuery } from "@apollo/client";
 import { fetchCurrentUser } from "../graphql/queries";
 import { Box, Spinner } from "@chakra-ui/react";
@@ -6,7 +6,9 @@ import { Box, Spinner } from "@chakra-ui/react";
 let CurrentUserContext = createContext(null);
 
 export function CurrentUserProvider(props) {
-  let { loading, data } = useQuery(fetchCurrentUser);
+  let { loading, data, refetch } = useQuery(fetchCurrentUser);
+
+  let value = useMemo(() => [data?.currentUser, refetch], [data, refetch]);
 
   if (loading) {
     return (
@@ -16,10 +18,9 @@ export function CurrentUserProvider(props) {
     );
   }
 
-  return <CurrentUserContext.Provider value={data.currentUser} {...props} />;
+  return <CurrentUserContext.Provider value={value} {...props} />;
 }
 
 export function useCurrentUser() {
-  let currentUser = useContext(CurrentUserContext);
-  return currentUser;
+  return useContext(CurrentUserContext);
 }

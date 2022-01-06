@@ -32,7 +32,7 @@ let sortOptions = [
 ];
 
 export default function Home() {
-  let currentUser = useCurrentUser();
+  let [currentUser] = useCurrentUser();
   let { data, loading } = useQuery(fetchFeedbackList);
   let [sortKey, setSortKey] = useState("Most Upvotes");
   let [selectedCategory, setSelectedCategory] = useState("all");

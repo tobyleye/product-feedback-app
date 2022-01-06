@@ -7,6 +7,7 @@ import theme from "./theme";
 import client from "./client";
 import Home from "./pages/home";
 import { UpvotedFeedbackProvider } from "./context/upvoted-feedback";
+import PrivateRoute from "./components/private-route";
 
 // pages
 const FeedbackDetails = lazy(() => import("./pages/feedback-details"));
@@ -27,12 +28,12 @@ function App() {
                   <Route path="/" exact>
                     <Home />
                   </Route>
-                  <Route path="/feedback/new">
+                  <PrivateRoute path="/feedback/new">
                     <NewFeedback />
-                  </Route>
-                  <Route path="/feedback/:id/edit">
+                  </PrivateRoute>
+                  <PrivateRoute path="/feedback/:id/edit">
                     <EditFeedback />
-                  </Route>
+                  </PrivateRoute>
                   <Route path="/feedback/:id">
                     <FeedbackDetails />
                   </Route>
