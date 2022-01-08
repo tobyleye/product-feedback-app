@@ -3,24 +3,29 @@ import { useCurrentUser } from "./currentuser";
 
 const UpvotedFeedback = createContext(null);
 
-let useStorageKey = () => {
-  const currentUser = useCurrentUser();
-  return currentUser?.id || "guest";
-};
-
 export function UpvotedFeedbackProvider(props) {
   const [upvoted, setUpvoted] = useState([]);
-  let storageKey = useStorageKey();
+
+  let [currentUser] = useCurrentUser();
 
   useEffect(() => {
-    setUpvoted(JSON.parse(localStorage.getItem(storageKey) || "[]"));
-  }, [storageKey]);
+    let loadCurrentUserUpvotedFeedbacks = () => {
+      if (currentUser) {
+        let upvotedFeedbacks = JSON.parse(
+          localStorage.getItem(currentUser.id) || "[]"
+        );
+        setUpvoted(upvotedFeedbacks);
+      }
+    };
+    loadCurrentUserUpvotedFeedbacks();
+  }, [currentUser]);
 
   useEffect(() => {
-    if (upvoted && upvoted.length > 0) {
-      localStorage.setItem(storageKey, JSON.stringify(upvoted));
+    if (currentUser && upvoted.length > 0) {
+      localStorage.setItem(currentUser.id, JSON.stringify(upvoted));
     }
-  }, [storageKey, upvoted]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [upvoted]);
 
   let value = useMemo(() => [upvoted, setUpvoted], [upvoted, setUpvoted]);
 
