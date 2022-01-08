@@ -132,7 +132,7 @@ export let FeedbackCard = ({ feedback, disableLink = false }) => {
           <HStack spacing={2}>
             <Icon as={FaComment} color="#CDD2EE" />
             <Text fontWeight="800" fontSize="md" color="gray.5">
-              {feedback?.comments?.length}
+              {feedback.commentCount}
             </Text>
           </HStack>
         </Box>

@@ -82,6 +82,12 @@ const FeedbackRequestType = new GraphQLObjectType({
         return Comment.find({ feedback: parentValue.id });
       },
     },
+    commentCount: {
+      type: GraphQLInt,
+      resolve(parentValue) {
+        return Comment.countDocuments({ feedback: parentValue.id })
+      },
+    },
     user: {
       type: UserType,
       resolve(parent, args) {

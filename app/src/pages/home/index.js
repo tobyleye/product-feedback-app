@@ -57,11 +57,11 @@ export default function Home() {
           break;
 
         case "Most Comments":
-          result.sort((a, b) => b.comments.length - a.comments.length);
+          result.sort((a, b) => b.commentCount - a.commentCount);
           break;
 
         case "Least Comments":
-          result.sort((a, b) => a.comments.length - b.comments.length);
+          result.sort((a, b) => a.commentCount - b.commentCount);
           break;
         default:
           break;

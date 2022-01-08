@@ -16,9 +16,7 @@ export const fetchFeedbackList = gql`
       status
       upvotes
       createdAt
-      comments {
-        id
-      }
+      commentCount,
       user {
         fullname
         email
@@ -42,6 +40,7 @@ export const fetchFeedback = gql`
       user {
         id
       }
+      commentCount,
       comments {
         id
         content
