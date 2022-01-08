@@ -15,7 +15,7 @@ import { BackButton } from "../components/buttons";
 import { gql } from "@apollo/client";
 import { useHistory, Redirect, useParams, Link } from "react-router-dom";
 import { useCurrentUser } from "../context/currentuser";
-import {Helmet} from "react-helmet"
+import { Helmet } from "react-helmet";
 
 let editFeedbackMutation = gql`
   mutation updateFeedbackRequest(
@@ -105,9 +105,7 @@ let EditForm = ({ feedback: _feedback = {} }) => {
   return (
     <Padded>
       <Helmet>
-        <title>
-          Editing {feedback.title} | Product Feedback App
-        </title>
+        <title>Editing {feedback.title} | Product Feedback App</title>
       </Helmet>
       <FormLayout>
         <Box mb={2}>
@@ -186,7 +184,7 @@ let EditForm = ({ feedback: _feedback = {} }) => {
 };
 
 export default function EditFeedback() {
-  let [currentUser] = useCurrentUser()
+  let [currentUser] = useCurrentUser();
   let { id } = useParams();
   const { data } = useQuery(fetchFeedback, {
     variables: {
@@ -196,12 +194,14 @@ export default function EditFeedback() {
 
   let feedback = data?.feedbackRequest;
 
-  if (feedback) {
-    if (feedback.user && feedback.user.id === currentUser.id) {
-      return <EditForm feedback={feedback} />;
-    } else {
-      return <Redirect to="/" />;
-    }
+  if (!feedback) return null;
+
+  let belongsToCurrentUser =
+    feedback.user && feedback.user.id === currentUser.id;
+
+  if (belongsToCurrentUser) {
+    return <EditForm feedback={feedback} />;
   }
-  return null;
+
+  return <Redirect to="/" />;
 }
