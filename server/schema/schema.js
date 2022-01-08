@@ -85,7 +85,7 @@ const FeedbackRequestType = new GraphQLObjectType({
     commentCount: {
       type: GraphQLInt,
       resolve(parentValue) {
-        return Comment.countDocuments({ feedback: parentValue.id })
+        return Comment.countDocuments({ feedback: parentValue.id });
       },
     },
     user: {
@@ -100,12 +100,6 @@ const FeedbackRequestType = new GraphQLObjectType({
 const rootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
-    hello: {
-      type: GraphQLString,
-      resolve: requireAuth(() => {
-        return "hello world";
-      }),
-    },
     feedbackRequests: {
       type: new GraphQLList(FeedbackRequestType),
       resolve: (_, args) => {
@@ -121,18 +115,10 @@ const rootQuery = new GraphQLObjectType({
         return FeedbackRequest.findById(id);
       },
     },
-
     currentUser: {
       type: UserType,
       resolve: requireAuth((parent, args, req) => {
         return req.user;
-      }),
-    },
-
-    greetings: {
-      type: GraphQLString,
-      resolve: requireAuth(() => {
-        return "Hello world!";
       }),
     },
   },
