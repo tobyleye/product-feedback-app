@@ -1,4 +1,4 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Alert, AlertIcon } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import { FormField } from "../../components/form";
 import { useState } from "react";
@@ -15,11 +15,14 @@ let SignupForm = () => {
 
   const [signup, { loading }] = useMutation(signupMutation);
   const history = useHistory();
+  
   // eslint-disable-next-line no-unused-vars
   const [_, refetchUser] = useCurrentUser();
+  const [error, setError] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
+    error && setError(false);
     try {
       await signup({
         variables: {
@@ -32,7 +35,8 @@ let SignupForm = () => {
       await refetchUser();
       history.push("/");
     } catch (err) {
-      // handle error
+      setError(true);
+      return;
     }
   };
 
@@ -41,6 +45,12 @@ let SignupForm = () => {
       <Helmet>
         <title>Signup | Product Feedback App</title>
       </Helmet>
+      {error && (
+        <Alert status="error" mb={8} mt="-15px" rounded="md" size="sm">
+          <AlertIcon />
+          An error occured
+        </Alert>
+      )}
 
       <FormField
         type="email"

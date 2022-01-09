@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Icon } from "@chakra-ui/react";
 import {
   Link,
   Switch,
@@ -11,9 +11,11 @@ import { Padded } from "../../components/layouts";
 import { FormLayout } from "../../components/form";
 import { lazy, Suspense } from "react";
 import { useCurrentUser } from "../../context/currentuser";
+import authIcon from "../../assets/auth.png";
 
 let LoginForm = lazy(() => import("./loginform"));
 let SignupForm = lazy(() => import("./signupform"));
+
 
 let Auth = () => {
   let location = useLocation();
@@ -25,13 +27,24 @@ let Auth = () => {
   if (currentUser) {
     return <Redirect to="/" />;
   }
-  
+
   return (
     <Box>
       <Padded>
         <FormLayout>
-          <Box bg="white" p={6} rounded="lg">
-            <Box h={20} />
+          <Box bg="white" p={6} rounded="lg" minH="400px">
+            <Box sx={{
+              textAlign:'center',
+              display:'flex',
+              justifyContent: 'center',
+              mb:6,
+              'img':{
+                width: '68px'
+              }
+            }}>
+              <img src={authIcon}  alt="auth yourself"/>
+            </Box>
+
             <Box
               sx={{
                 display: "flex",

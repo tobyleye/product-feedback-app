@@ -1,4 +1,4 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Alert, AlertIcon } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import { FormField } from "../../components/form";
 import { useState } from "react";
@@ -22,6 +22,7 @@ let LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, { loading }] = useMutation(loginMutation);
+  const [error, setError] = useState(false);
 
   const history = useHistory();
   const { returnUrl } = useSearchParams();
@@ -31,6 +32,7 @@ let LoginForm = () => {
 
   const submit = async (e) => {
     e.preventDefault();
+    error && setError(false);
     try {
       await login({
         variables: {
@@ -38,15 +40,16 @@ let LoginForm = () => {
           email,
         },
       });
-      let user = await refetchUser();
-
-      alert(JSON.stringify(user?.data?.currentUser))
+      await refetchUser();
 
       let path = returnUrl && returnUrl.startsWith("/") ? returnUrl : "/";
       setTimeout(() => {
         history.push(path);
       }, 200);
-    } catch (err) {}
+    } catch (err) {
+      setError(true);
+      return;
+    }
   };
 
   return (
@@ -54,6 +57,12 @@ let LoginForm = () => {
       <Helmet>
         <title>Login | Product Feedback App</title>
       </Helmet>
+      {error && (
+        <Alert status="error" mb={8} mt="-15px" rounded="md" size="sm">
+          <AlertIcon />
+         Invalid credentials
+        </Alert>
+      )}
 
       <FormField
         type="email"
@@ -75,7 +84,7 @@ let LoginForm = () => {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Box />
+        <Box color="red.1" fontSize="sm"></Box>
         <Button type="submit" isLoading={loading}>
           Login
         </Button>
