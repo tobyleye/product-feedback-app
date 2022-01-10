@@ -79,7 +79,7 @@ export default function CommentForm({ feedbackId }) {
           >
             <Text size="body2">Login to comment</Text>
 
-            <Button type="button" as={Link} to="/login" isLoading={loading}>
+            <Button type="button" as={Link} to="/auth/login" isLoading={loading}>
               Login
             </Button>
           </Box>

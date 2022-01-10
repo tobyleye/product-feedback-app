@@ -18,8 +18,7 @@ import { useRef } from "react";
 import { useCurrentUser } from "../../context/currentuser";
 import { useHomeContext } from "./context";
 import { fetchCurrentUser } from "../../graphql/queries";
-import {FiLogIn,FiLogOut} from "react-icons/fi"
-
+import { FiLogIn, FiLogOut } from "react-icons/fi";
 
 let Card = (props) => <Box p={4} rounded="lg" bg="white" {...props} />;
 
@@ -106,11 +105,22 @@ export function Nav() {
       >
         <HStack spacing={5}>
           {currentUser ? (
-            <Button leftIcon={<FiLogOut/>} onClick={logout} variant="link" color="white">
+            <Button
+              leftIcon={<FiLogOut />}
+              onClick={logout}
+              variant="link"
+              color="white"
+            >
               Logout
             </Button>
           ) : (
-            <Button leftIcon={<FiLogIn />} as={Link} to="/auth/login" variant="link" color="white">
+            <Button
+              leftIcon={<FiLogIn />}
+              as={Link}
+              to="/auth/login"
+              variant="link"
+              color="white"
+            >
               Login
             </Button>
           )}
@@ -275,6 +285,8 @@ export default function Header() {
         display={{ base: "none", md: "grid" }}
         gap={4}
         gridTemplateColumns={{ base: "repeat(3, 1fr)", lg: "1fr" }}
+        position={{ lg: "sticky" }}
+        top={{ lg: "20px" }}
       >
         <Nav />
         <CategoryFilters />
