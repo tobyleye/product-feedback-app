@@ -12,10 +12,10 @@ import { FormLayout } from "../../components/form";
 import { lazy, Suspense } from "react";
 import { useCurrentUser } from "../../context/currentuser";
 import authIcon from "../../assets/auth.png";
+import Loader from "../../components/loader"
 
 let LoginForm = lazy(() => import("./loginform"));
 let SignupForm = lazy(() => import("./signupform"));
-
 
 let Auth = () => {
   let location = useLocation();
@@ -32,17 +32,19 @@ let Auth = () => {
     <Box>
       <Padded>
         <FormLayout>
-          <Box bg="white" p={6} rounded="lg" minH="400px">
-            <Box sx={{
-              textAlign:'center',
-              display:'flex',
-              justifyContent: 'center',
-              mb:6,
-              'img':{
-                width: '68px'
-              }
-            }}>
-              <img src={authIcon}  alt="auth yourself"/>
+          <Box bg="white" p={6} rounded="lg">
+            <Box
+              sx={{
+                textAlign: "center",
+                display: "flex",
+                justifyContent: "center",
+                mb: 6,
+                img: {
+                  width: "68px",
+                },
+              }}
+            >
+              <img src={authIcon} alt="auth yourself" />
             </Box>
 
             <Box
@@ -78,17 +80,23 @@ let Auth = () => {
                 }}
               />
             </Box>
-            <Suspense fallback={<div />}>
-              <Switch>
-                <Route path={parentPath + "/login"}>
-                  <LoginForm />
-                </Route>
-                <Route path={parentPath + "/signup"}>
-                  <SignupForm />
-                </Route>
-                <Redirect from="*" to={parentPath + "/login"} />
-              </Switch>
-            </Suspense>
+            <Box minH="240px">
+              <Suspense
+                fallback={
+                  <Loader h={20} />
+                }
+              >
+                <Switch>
+                  <Route path={parentPath + "/login"}>
+                    <LoginForm />
+                  </Route>
+                  <Route path={parentPath + "/signup"}>
+                    <SignupForm />
+                  </Route>
+                  <Redirect from="*" to={parentPath + "/login"} />
+                </Switch>
+              </Suspense>
+            </Box>
           </Box>
         </FormLayout>
       </Padded>

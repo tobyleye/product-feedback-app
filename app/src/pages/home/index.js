@@ -23,6 +23,8 @@ import { ReactComponent as NoFeedback } from "../../assets/no-feedback.svg";
 import Header from "./header";
 import { HomeContext } from "./context";
 import { Helmet } from "react-helmet";
+import Loader from "../../components/loader"
+
 
 let sortOptions = [
   "Most Upvotes",
@@ -134,7 +136,7 @@ export default function Home() {
             </Box>
 
             {loading ? (
-              <Box>Loading</Box>
+              <Loader h={20}/>
             ) : feedbackList.length === 0 ? (
               <Box
                 textAlign="center"
