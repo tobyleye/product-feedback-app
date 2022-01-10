@@ -10,11 +10,12 @@ import { Padded } from "../../components/layouts";
 import { Comment } from "./comment";
 import { useCurrentUser } from "../../context/currentuser";
 import { Helmet } from "react-helmet";
+import Loader from "../../components/loader";
 
 export default function FeedbackDetailsPage() {
   const { id } = useParams();
 
-  const { data } = useQuery(fetchFeedback, {
+  const { data, loading } = useQuery(fetchFeedback, {
     variables: {
       id,
     },
@@ -46,7 +47,9 @@ export default function FeedbackDetailsPage() {
             </Button>
           )}
         </Box>
-        {feedback && (
+        {loading ? (
+          <Loader h={40} />
+        ) : (
           <div>
             <Box as="section" mb={6}>
               <FeedbackCard feedback={feedback} disableLink />
