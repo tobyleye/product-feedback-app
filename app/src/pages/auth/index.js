@@ -12,7 +12,7 @@ import { FormLayout } from "../../components/form";
 import { lazy, Suspense } from "react";
 import { useCurrentUser } from "../../context/currentuser";
 import authIcon from "../../assets/auth.png";
-import Loader from "../../components/loader"
+import Loader from "../../components/loader";
 
 let LoginForm = lazy(() => import("./loginform"));
 let SignupForm = lazy(() => import("./signupform"));
@@ -80,12 +80,8 @@ let Auth = () => {
                 }}
               />
             </Box>
-            <Box minH="240px">
-              <Suspense
-                fallback={
-                  <Loader h={20} />
-                }
-              >
+            <Box minH="240px" position="relative">
+              <Suspense fallback={<Loader h="200px" />}>
                 <Switch>
                   <Route path={parentPath + "/login"}>
                     <LoginForm />

@@ -1,4 +1,9 @@
-import { Box, Button, Alert, AlertIcon } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Alert,
+  AlertIcon,
+} from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import { FormField } from "../../components/form";
 import { useState } from "react";
@@ -60,7 +65,7 @@ let LoginForm = () => {
       {error && (
         <Alert status="error" mb={8} mt="-15px" rounded="md" size="sm">
           <AlertIcon />
-         Invalid credentials
+          There was a problem loggin in. Check your email and password.
         </Alert>
       )}
 

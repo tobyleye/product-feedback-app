@@ -48,7 +48,7 @@ let SignupForm = () => {
       {error && (
         <Alert status="error" mb={8} mt="-15px" rounded="md" size="sm">
           <AlertIcon />
-          An error occured
+          There was a problem creating your account.
         </Alert>
       )}
 
