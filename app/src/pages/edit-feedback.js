@@ -80,7 +80,7 @@ let EditForm = ({ feedback: _feedback = {} }) => {
         },
       ],
     }).then(() => {
-      history.push(`/feedback/${id}`);
+      history.replace(`/feedback/${id}`)
     });
   };
 
