@@ -9,6 +9,22 @@ import {
 import ReplyForm from "./reply-form";
 import { useCurrentUser } from "../../context/currentuser";
 
+let CustomAvatar = (props) => (
+  <Avatar
+    {...props}
+    sx={{
+      width: "40px",
+      height: "40px",
+      fontSize: "15px",
+
+      div: {
+        fontSize: "18px",
+        lineHeight: 1.2
+      },
+    }}
+  />
+);
+
 export function Comment({
   id,
   user,
@@ -27,30 +43,29 @@ export function Comment({
 
   return (
     <Box>
-      
-      <Box display="flex" mb={3}>
+      <Box display="flex" mb={5}>
         <Box display={["none", "block"]} flexShrink={0} mr={8}>
-          <Avatar size="md" name={user?.fullname} />
+          <CustomAvatar name={user?.fullname} />
         </Box>
         <Box flex="1">
           <Box
-            mb={4}
+            mb={3}
             display="flex"
             justifyContent="space-between"
             alignItems="center"
           >
             <Box display="flex" alignItems="center">
-              <Avatar
-                display={["block", "none"]}
-                size={"md"}
-                mr={2}
+              <CustomAvatar
+                display={["flex", "none"]}
+                mr={4}
                 name={user?.fullname}
               />
               <div>
-                <Heading size="h4">{user?.fullname}</Heading>
+                <Heading size="h4" textTransform="capitalize">{user?.fullname}</Heading>
                 <Text size="body2">@{user?.username}</Text>
               </div>
             </Box>
+
             {!disallowReply && currentUser && (
               <Button size="sm" variant="link" onClick={toggleReplyForm}>
                 Reply

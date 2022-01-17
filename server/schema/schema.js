@@ -204,11 +204,6 @@ const mutation = new GraphQLObjectType({
         reply: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve: requireAuth((_, { feedbackId, commentId, reply }, req) => {
-        console.log("saving reply...", {
-          feedbackId,
-          commentId,
-          reply,
-        });
 
         return new Reply({
           feedback: feedbackId,

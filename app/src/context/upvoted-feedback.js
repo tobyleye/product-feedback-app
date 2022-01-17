@@ -16,6 +16,9 @@ export function UpvotedFeedbackProvider(props) {
         );
         setUpvoted(upvotedFeedbacks);
       }
+      else{
+        setUpvoted([])
+      }
     };
     loadCurrentUserUpvotedFeedbacks();
   }, [currentUser]);

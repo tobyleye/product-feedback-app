@@ -167,7 +167,7 @@ export default function Home() {
                     Add Feedback
                   </Button>
                 ) : (
-                  <Button as={Link} to="/login">
+                  <Button as={Link} to="/auth/login">
                     Login to add feedback
                   </Button>
                 )}
